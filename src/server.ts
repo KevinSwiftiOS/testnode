@@ -5,7 +5,7 @@ import Redis from 'ioredis';
 import mongoose from 'mongoose';
 import assert from "assert";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import { baseDb, db } from './db/src';
+import { Db } from './db/dist/esm';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import axios from 'axios';
 // import axios from 'axios';
@@ -58,8 +58,8 @@ export class CloudBase {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   database(config: any) {
-    const dbInstance = new db(config);
-    baseDb.reqClass = Request;
+    const dbInstance = new Db(config);
+    Db.reqClass = Request;
     return dbInstance;
   }
 }
@@ -103,6 +103,7 @@ initService().then(async ({ redis, mongoose}) => {
        const dbInstance = new CloudBase();
        const db =  dbInstance.database({ config:true });
        return db.collection("todos").get();
+       
     })
     .get('/api/get_data_from_redis', async(ctx) => {
         const key = ctx.query.key as string;
