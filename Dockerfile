@@ -7,7 +7,7 @@ COPY .  .
 
 USER root
 
-RUN npm install
+RUN npm install --registry=https://registry.npmmirror.com
 
 RUN npm run build
 
@@ -24,7 +24,7 @@ COPY run.sh ./
 
 USER root
 
-RUN npm install --production
+RUN npm install --production --registry=https://registry.npmmirror.com
 
 RUN chmod -R 777 /opt/application/run.sh
 
