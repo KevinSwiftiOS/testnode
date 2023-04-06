@@ -5,7 +5,6 @@ import Redis from 'ioredis';
 import mongoose from 'mongoose';
 import assert from "assert";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import { Db } from './db/dist/esm';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import axios from 'axios';
 // import axios from 'axios';
@@ -15,23 +14,17 @@ class Request {
 
   // eslint-disable-next-line class-methods-use-this
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async send(action: unknown, data: unknown) {
-    const params = Object.assign({}, data, {
-      action,
-    });
-    console.log('请求的参数', params);
-    console.log(
-      process.env.NODE_ENV === 'development'
-        ? 'dycloud-api-boe.byted.org'
-        : 'dycloud.volces.com'
-    );
+  async send() {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
-            url: process.env.NODE_ENV !== 'development'
-                ? 'http://dycloud-api-boe.byted.org/api/cloud_db/exec_cloud_database'
-                : 'http://dycloud.volces.com/api/cloud_db/exec_cloud_database',
-            data: params,
+            url: 'http://dycloud-api-boe.byted.org/api/cloud_db/exec_cloud_database',
+            data: {
+                collectionName: 'todos',
+                queryType: 'WHERE',
+                action: 'database.getDocument',
+                limit: 100,
+              },
             headers: {
                 'X-TT-ENV': 'boe_cloud_database_dyc',
                 'content-type': 'application/json',
@@ -46,21 +39,6 @@ class Request {
             reject(error);
         });
     });
-  }
-}
-export class CloudBase {
-  config: any;
-  /* eslint-disable new-cap */
-  constructor(config?: any) {
-    this.config = config;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  database(config: any) {
-    const dbInstance = new Db(config);
-    Db.reqClass = Request;
-    return dbInstance;
   }
 }
 
@@ -100,10 +78,8 @@ initService().then(async ({ redis, mongoose}) => {
     router.get('/', ctx => {
         ctx.body = `Nodejs koa demo project`;
     }).get('/api/testdb', async(ctx) => {
-       const dbInstance = new CloudBase();
-       const db =  dbInstance.database({ config:true });
-       return db.collection("todos").get();
-       
+       const request = new Request();
+       return request.send();
     })
     .get('/api/get_data_from_redis', async(ctx) => {
         const key = ctx.query.key as string;
