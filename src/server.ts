@@ -5,7 +5,7 @@ import Redis from 'ioredis';
 import mongoose from 'mongoose';
 import assert from "assert";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import { baseDb, db } from '@open-dy/cloud-database';
+import { baseDb, db } from './db/src';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import axios from 'axios';
 // import axios from 'axios';
