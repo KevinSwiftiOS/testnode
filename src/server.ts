@@ -37,6 +37,9 @@ class Request {
         })
             .catch((error) => {
             console.log('失败', error);
+            if(error.response) {
+                console.log("失败请求头", + JSON.stringify(error.response.headers));
+            }
             // console.log('error', error);
             reject(error);
         });
