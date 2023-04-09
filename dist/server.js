@@ -20,6 +20,7 @@ class Request {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     async send() {
         return new Promise((resolve, reject) => {
+            console.log("到了这儿1");
             (0, axios_1.default)({
                 method: 'post',
                 url: 'http://dycloud-api-boe.byted.org/api/cloud_db/exec_cloud_database',
@@ -35,10 +36,14 @@ class Request {
                 },
             })
                 .then((res) => {
-                // console.log('res', res);
+                console.log('成功', res);
                 resolve(res);
             })
                 .catch((error) => {
+                console.log('失败', error);
+                if (error.response) {
+                    console.log("失败请求头", +JSON.stringify(error.response.headers));
+                }
                 // console.log('error', error);
                 reject(error);
             });
@@ -72,9 +77,11 @@ initService().then(async ({ redis, mongoose }) => {
     const app = new koa_1.default();
     const router = new router_1.default();
     router.get('/', ctx => {
+        console.log("发琴请求了");
         ctx.body = `Nodejs koa demo project`;
     }).get('/api/testdb', async (ctx) => {
         const request = new Request();
+        console.log("发琴请求1");
         return request.send();
     })
         .get('/api/get_data_from_redis', async (ctx) => {
