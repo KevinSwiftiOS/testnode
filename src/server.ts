@@ -16,7 +16,7 @@ initService().then(async () => {
     const app = new Koa();
 
     const router = new Router();
-    router.get('/', ctx => {
+    router.get('/api', ctx => {
         ctx.body = `Nodejs koa demo project`;
         return {a: 1}
     })
