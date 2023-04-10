@@ -10,7 +10,7 @@ import axios from 'axios';
 async function initService() {
 }
 
-initService().then(async ({}) => {
+initService().then(async () => {
 
 
     const app = new Koa();
