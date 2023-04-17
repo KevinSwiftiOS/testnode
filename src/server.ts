@@ -19,7 +19,7 @@ class Request {
         throw new Error('报错');
     }
 
-    return JSON.parse(res.data.data);
+    return (res.data.data);
   }
 }
 async function initService() {
