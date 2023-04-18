@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const router_1 = __importDefault(require("@koa/router"));
-const koa_1 = __importDefault(require("koa"));
-const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
-const axios_1 = __importDefault(require("axios"));
+const router_1 = require("@koa/router");
+const koa_1 = require("koa");
+const koa_bodyparser_1 = require("koa-bodyparser");
+const axios_1 = require("axios");
 const src_1 = require("./database/src");
 class Request {
     async send(action, data) {
@@ -64,4 +61,3 @@ initService().then(async () => {
         console.log(`Server running on port ${PORT}`);
     });
 }).catch((error) => console.log("Init service  error: ", error));
-//# sourceMappingURL=server.js.map

@@ -1,9 +1,16 @@
-import Router from '@koa/router'
+import  Router from '@koa/router';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import axios from 'axios';
+import { db,  baseDb, DataBaseError } from './database/src';
 class Request {
-  async send(params: any) {
+
+ 
+  async send(action: unknown, data: unknown) {
+    const params = Object.assign({}, data, {
+      action,
+    });
+
     const res = await axios({
       method: 'post',
       url: 'http://cloud-database-api.dycloud.run/api/cloud_database/exec_cloud_database_cmd',
@@ -15,11 +22,13 @@ class Request {
       },
     });
     if (res.data.statusCode) {
-        console.log("res.data.statusCode", res.data.statusCode);
-        throw new Error('报错');
+      throw new DataBaseError({
+        errMsg: res.data.statusMessage,
+        errorCode: res.data.statusCode,
+      });
     }
 
-    return (res.data.data);
+    return JSON.parse(res?.data?.data || '{}');
   }
 }
 async function initService() {
@@ -28,21 +37,21 @@ async function initService() {
 initService().then(async () => {
     const app = new Koa();
     const router = new Router();
+    const dbInstance = new db();
+    baseDb.reqClass = Request;
     router.get('/api/test', async(ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
         return 'test';
      });
     router.get('/api/get', async(ctx) => {
-       const request = new Request();
-       const res = await request.send({"collection_name":"collection2","query_type":"WHERE","offset":0,"limit":100,"action":"database.getDocument"});
-       ctx.body = res;
+       const res = await dbInstance.collection("collection2").get();
        console.log("get拿到的结果", res);
+       ctx.body = res;
        return res;
     });
     router.get('/api/update', async(ctx) => {
-        const request = new Request();
-        const res = await request.send({"has_server_date":false,"collection_name":"collection2","query_type":"WHERE","multi":true,"merge":true,"upsert":false,"update_data":"{\"$set\":{\"chenghe\":\"ckq\"}}","query":"{\"age\":{\"$numberInt\":\"17\"}}","action":"database.updateDocument"});
+        const res = await dbInstance.collection("collection2").add({data: {name: 1}});
         ctx.body = res;
         console.log("update拿到的结果", res);
         return res;
