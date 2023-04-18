@@ -21,6 +21,7 @@ class Request {
         'x-use-ppe': 1
       },
     });
+    console.log("res", res);
     if (res.data.statusCode) {
       throw new DataBaseError({
         errMsg: res.data.statusMessage,
