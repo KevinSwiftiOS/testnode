@@ -6,59 +6,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const router_1 = __importDefault(require("@koa/router"));
 const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
-const axios_1 = __importDefault(require("axios"));
-const src_1 = require("./database/src");
-class Request {
-    async send(action, data) {
-        var _a, _b;
-        const params = Object.assign({}, data, {
-            action,
-        });
-        const res = await (0, axios_1.default)({
-            method: 'post',
-            url: 'http://cloud-database-api.dycloud.run/api/cloud_database/exec_cloud_database_cmd',
-            data: params,
-            headers: {
-                'X-TT-ENV': 'ppe_cloud_database_dyc',
-                'content-type': 'application/json',
-                'x-use-ppe': 1
-            },
-        });
-        console.log("res status", res.status);
-        console.log("res status === 200", res.status === 200);
-        console.log("res.statusText", res.statusText);
-        console.log("res data", JSON.stringify(res.data));
-        console.log("res.data.statusMessage", res.data.statusMessage);
-        console.log("res.data.statusCode", res.data.statusCode);
-        if (res.data.status_code) {
-            throw new src_1.DataBaseError({
-                errMsg: (_a = res.data.status_message) !== null && _a !== void 0 ? _a : '',
-                errorCode: res.data.status_code,
-            });
-        }
-        return (((_b = res === null || res === void 0 ? void 0 : res.data) === null || _b === void 0 ? void 0 : _b.data) || {});
-    }
-}
+// import axios from 'axios';
+const node_server_sdk_1 = require("@open-dy/node-server-sdk");
+// class Request {
+//   async send(params) {
+//     const res = await axios({
+//       method: 'post',
+//       url: 'http://cloud-database-api.dycloud.run/api/cloud_database/exec_cloud_database_cmd',
+//       data: params,
+//       headers: {
+//         'X-TT-ENV': 'ppe_cloud_database_dyc',
+//         'content-type': 'application/json',
+//         'x-use-ppe': 1
+//       },
+//     });
+//     if (res.data.statusCode) {
+//         console.log("res.data.statusCode", res.data.statusCode);
+//         throw new Error('报错');
+//     }
+//     return JSON.parse(res.data.data);
+//   }
+// }
 async function initService() {
 }
 initService().then(async () => {
     const app = new koa_1.default();
     const router = new router_1.default();
-    const dbInstance = new src_1.db();
-    src_1.baseDb.reqClass = Request;
+    const database = new node_server_sdk_1.dySDK();
+    const a = database.getdatabase();
     router.get('/api/test', async (ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
         return 'test';
     });
     router.get('/api/get', async (ctx) => {
-        const res = await dbInstance.collection("collection2").get();
-        console.log("get拿到的结果", res);
+        const res = await a.collection("todos").get();
         ctx.body = res;
+        console.log("get拿到的结果", res);
         return res;
     });
     router.get('/api/update', async (ctx) => {
-        const res = await dbInstance.collection("collection2").add({ data: { name: 1 } });
+        // const res = await request.send({"has_server_date":false,"collection_name":"collection2","query_type":"WHERE","multi":true,"merge":true,"upsert":false,"update_data":"{\"$set\":{\"chenghe\":\"ckq\"}}","query":"{\"age\":{\"$numberInt\":\"17\"}}","action":"database.updateDocument"});
+        const res = await a.collection("todos").add({ data: 1 });
         ctx.body = res;
         console.log("update拿到的结果", res);
         return res;

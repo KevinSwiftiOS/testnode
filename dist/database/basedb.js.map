@@ -1,1 +1,0 @@
-{"version":3,"file":"basedb.js","sourceRoot":"","sources":["../../src/database/basedb.ts"],"names":[],"mappings":";;;AAAA,uCAAoC;AACpC,8CAA2D;AAK3D;;;GAGG;AACH,MAAa,MAAM;IAkBjB,YAAY,MAAY;QACtB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,OAAO,GAAG,iBAAO,CAAC;QACvB,IAAI,CAAC,UAAU,GAAG,6BAAqB,CAAC;IAC1C,CAAC;CACF;AAvBD,wBAuBC"}

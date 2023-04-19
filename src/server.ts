@@ -2,7 +2,7 @@ import Router from '@koa/router'
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 // import axios from 'axios';
-import { dySDK } from '@open-dy/node-server-sdk'
+import { dySDK } from './node-server-sdk';
 // class Request {
 //   async send(params) {
 //     const res = await axios({
