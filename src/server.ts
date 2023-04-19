@@ -21,7 +21,7 @@ class Request {
         'x-use-ppe': 1
       },
     });
-    console.log("res", res);
+    console.log("res status", res.status);
     if (res.data.statusCode) {
       throw new DataBaseError({
         errMsg: res.data.statusMessage,
@@ -29,7 +29,7 @@ class Request {
       });
     }
 
-    return JSON.parse(res?.data?.data || '{}');
+    return (res?.data?.data || {});
   }
 }
 async function initService() {
