@@ -22,6 +22,9 @@ class Request {
       },
     });
     console.log("res status", res.status);
+    console.log("res.statusText", res.statusText);
+    console.log("res.data.statusMessage", res.data.statusMessage);
+    console.log("res.data.statusCode", res.data.statusCode);
     if (res.data.statusCode) {
       throw new DataBaseError({
         errMsg: res.data.statusMessage,
