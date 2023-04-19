@@ -75,6 +75,7 @@ export class CollectionReference extends Query {
       'database.addDocument',
       formatRequestServerDateParams(params)
     );
+    console.log("sdk 里的 id", data.inserted_ids[0]);
     if (!isArray(opts.data) && data?.inserted_ids?.length > 0) {
       // 兼容原事务 插入文档接口
       return {
