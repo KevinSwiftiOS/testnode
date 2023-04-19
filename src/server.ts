@@ -1,76 +1,57 @@
-import  Router from '@koa/router';
+import Router from '@koa/router'
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import axios from 'axios';
-import { db,  baseDb, DataBaseError } from './database/src';
-class Request {
+// import axios from 'axios';
+import { dySDK } from '@open-dy/node-server-sdk'
+// class Request {
+//   async send(params) {
+//     const res = await axios({
+//       method: 'post',
+//       url: 'http://cloud-database-api.dycloud.run/api/cloud_database/exec_cloud_database_cmd',
+//       data: params,
+//       headers: {
+//         'X-TT-ENV': 'ppe_cloud_database_dyc',
+//         'content-type': 'application/json',
+//         'x-use-ppe': 1
+//       },
+//     });
+//     if (res.data.statusCode) {
+//         console.log("res.data.statusCode", res.data.statusCode);
+//         throw new Error('报错');
+//     }
 
- 
-  async send(action: unknown, data: unknown) {
-    const params = Object.assign({}, data, {
-      action,
-    });
-
-    const res = await axios({
-      method: 'post',
-      url: 'http://cloud-database-api.dycloud.run/api/cloud_database/exec_cloud_database_cmd',
-      data: params,
-      headers: {
-        'X-TT-ENV': 'ppe_cloud_database_dyc',
-        'content-type': 'application/json',
-        'x-use-ppe': 1
-      },
-    });
-    console.log("res status", res.status);
-    console.log("res status === 200", res.status === 200);
-    console.log("res.statusText", res.statusText);
-    console.log("res data",JSON.stringify(res.data));
-    console.log("res.data.statusMessage", res.data.status_message);
-    console.log("res.data.statusCode", res.data.statusCode);
-    if (res.data.status_code) {
-      throw new DataBaseError({
-        errMsg: res.data.status_message ?? '',
-        errorCode: res.data.status_code,
-      });
-    }
-
-    return (res?.data?.data || {});
-  }
-}
+//     return JSON.parse(res.data.data);
+//   }
+// }
 async function initService() {
 
 }
 initService().then(async () => {
     const app = new Koa();
     const router = new Router();
-    const dbInstance = new db();
-    baseDb.reqClass = Request;
+    const database = new dySDK();
+    const a = database.getdatabase();
+    
+    
     router.get('/api/test', async(ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
         return 'test';
      });
     router.get('/api/get', async(ctx) => {
-       const res = await dbInstance.collection("collection2").get();
-       console.log("get拿到的结果", res);
+    
+       const res = await a.collection("todos").get();
        ctx.body = res;
+       console.log("get拿到的结果", res);
        return res;
     });
     router.get('/api/update', async(ctx) => {
-      try {
-        const res = await dbInstance.collection("collection2").add({data: {name: 1}});
+
+        // const res = await request.send({"has_server_date":false,"collection_name":"collection2","query_type":"WHERE","multi":true,"merge":true,"upsert":false,"update_data":"{\"$set\":{\"chenghe\":\"ckq\"}}","query":"{\"age\":{\"$numberInt\":\"17\"}}","action":"database.updateDocument"});
+        const res = await a.collection("todos").add({data: 1});
         ctx.body = res;
         console.log("update拿到的结果", res);
         return res;
-      }catch(err) {
-        console.log("update err拿到的结果", err);
-        ctx.body = {
-          statusMessage: err.errMsg,
-          statusCode: err.errorCode
-        }
-        return 'fail'
-      }
-        
      });
     app.use(bodyParser());
     app.use(router.routes());
