@@ -25,7 +25,7 @@ class Request {
     console.log("res status === 200", res.status === 200);
     console.log("res.statusText", res.statusText);
     console.log("res data",JSON.stringify(res.data));
-    console.log("res.data.statusMessage", res.data.statusMessage);
+    console.log("res.data.statusMessage", res.data.status_message);
     console.log("res.data.statusCode", res.data.statusCode);
     if (res.data.status_code) {
       throw new DataBaseError({
@@ -57,10 +57,20 @@ initService().then(async () => {
        return res;
     });
     router.get('/api/update', async(ctx) => {
+      try {
         const res = await dbInstance.collection("collection2").add({data: {name: 1}});
         ctx.body = res;
         console.log("update拿到的结果", res);
         return res;
+      }catch(err) {
+        console.log("update err拿到的结果", err);
+        ctx.body = {
+          statusMessage: err.errMsg,
+          statusCode: err.errorCode
+        }
+        return 'fail'
+      }
+        
      });
     app.use(bodyParser());
     app.use(router.routes());
