@@ -10,7 +10,7 @@ const axios_1 = __importDefault(require("axios"));
 const src_1 = require("./database/src");
 class Request {
     async send(action, data) {
-        var _a;
+        var _a, _b;
         const params = Object.assign({}, data, {
             action,
         });
@@ -24,13 +24,19 @@ class Request {
                 'x-use-ppe': 1
             },
         });
-        if (res.data.statusCode) {
+        console.log("res status", res.status);
+        console.log("res status === 200", res.status === 200);
+        console.log("res.statusText", res.statusText);
+        console.log("res data", JSON.stringify(res.data));
+        console.log("res.data.statusMessage", res.data.statusMessage);
+        console.log("res.data.statusCode", res.data.statusCode);
+        if (res.data.status_code) {
             throw new src_1.DataBaseError({
-                errMsg: res.data.statusMessage,
-                errorCode: res.data.statusCode,
+                errMsg: (_a = res.data.status_message) !== null && _a !== void 0 ? _a : '',
+                errorCode: res.data.status_code,
             });
         }
-        return JSON.parse(((_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.data) || '{}');
+        return (((_b = res === null || res === void 0 ? void 0 : res.data) === null || _b === void 0 ? void 0 : _b.data) || {});
     }
 }
 async function initService() {

@@ -56,6 +56,7 @@ class CollectionReference extends query_1.Query {
             insert_data: transformData,
         };
         const data = await this._request.send('database.addDocument', (0, util_1.formatRequestServerDateParams)(params));
+        console.log("sdk 里的 inserted_ids", data.inserted_ids);
         if (!(0, typings_1.isArray)(opts.data) && ((_a = data === null || data === void 0 ? void 0 : data.inserted_ids) === null || _a === void 0 ? void 0 : _a.length) > 0) {
             // 兼容原事务 插入文档接口
             return {
