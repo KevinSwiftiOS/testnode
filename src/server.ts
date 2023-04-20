@@ -30,7 +30,6 @@ initService().then(async () => {
     const app = new Koa();
     const router = new Router();
   
-    const a =  dySDK.database();
     router.get('/api/test', async(ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
@@ -38,6 +37,7 @@ initService().then(async () => {
      });
     router.get('/api/get', async(ctx) => {
     try{
+        const a =  dySDK.database();
        const res = await a.collection("todos").get();
        console.log("get拿到的结果", res);
        ctx.body = res;
@@ -51,7 +51,7 @@ initService().then(async () => {
     }
     });
     router.get('/api/update', async(ctx) => {
-
+        const a =  dySDK.database();
         // const res = await request.send({"has_server_date":false,"collection_name":"collection2","query_type":"WHERE","multi":true,"merge":true,"upsert":false,"update_data":"{\"$set\":{\"chenghe\":\"ckq\"}}","query":"{\"age\":{\"$numberInt\":\"17\"}}","action":"database.updateDocument"});
         const res = await a.collection("todos").add({data: 1});
         ctx.body = res;
