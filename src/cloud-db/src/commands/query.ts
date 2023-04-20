@@ -9,11 +9,6 @@ export const LT = 'lt';
 export const LTE = 'lte';
 export const IN = 'in';
 export const NIN = 'nin';
-export const ALL = 'all';
-export const ELEM_MATCH = 'elemMatch';
-export const EXISTS = 'exists';
-export const SIZE = 'size';
-export const MOD = 'mod';
 
 export enum QUERY_COMMANDS_LITERAL {
   EQ = 'eq',
@@ -24,14 +19,6 @@ export enum QUERY_COMMANDS_LITERAL {
   LTE = 'lte',
   IN = 'in',
   NIN = 'nin',
-  ALL = 'all',
-  ELEM_MATCH = 'elemMatch',
-  EXISTS = 'exists',
-  SIZE = 'size',
-  MOD = 'mod',
-  GEO_NEAR = 'geoNear',
-  GEO_WITHIN = 'geoWithin',
-  GEO_INTERSECTS = 'geoIntersects',
 }
 
 export class QueryCommand extends LogicCommand {

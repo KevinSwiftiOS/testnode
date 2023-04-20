@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.encodeInternalDataType = exports.isConversionRequired = exports.mergeConditionAfterEncode = exports.flattenQueryObject = void 0;
-const Errors_1 = require("../Errors");
+const error_1 = require("../error");
 const typings_1 = require("../typings");
 const datatype_1 = require("./datatype");
 function flattenQueryObject(query) {
@@ -9,7 +9,7 @@ function flattenQueryObject(query) {
 }
 exports.flattenQueryObject = flattenQueryObject;
 function flatten(query, shouldPreserverObject, parents, visited) {
-    console.log('添加日志测试发包');
+    // console.log('query', query);
     const cloned = Object.assign({}, query);
     for (const key in query) {
         if (/^\$/.test(key)) {
@@ -23,20 +23,24 @@ function flatten(query, shouldPreserverObject, parents, visited) {
         if (!value) {
             continue;
         }
+        // 值是对象的情况下再进入 { 'person': { name: 'ckq' } }
         if ((0, typings_1.isObject)(value) && !shouldPreserverObject(value)) {
+            // 避免循引用
             if (visited.includes(value)) {
-                throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.common.PRESERVER_ERROR }));
+                throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.common.PRESERVER_ERROR }));
             }
             // 存储key
             const newParents = [...parents, key];
             // 存储value
             const newVisited = [...visited, value];
             const flattenedChild = flatten(value, shouldPreserverObject, newParents, newVisited);
+            // console.log('flattenedChild', flattenedChild);
+            // console.log('cloned', cloned);
             cloned[key] = flattenedChild;
             let hasKeyNotCombined = false;
             for (const childKey in flattenedChild) {
                 if (!/^\$/.test(childKey)) {
-                    // 设置b.a
+                    // 设置person.name = ckq;
                     cloned[`${key}.${childKey}`] = flattenedChild[childKey];
                     delete cloned[key][childKey];
                 }
@@ -44,11 +48,14 @@ function flatten(query, shouldPreserverObject, parents, visited) {
                     hasKeyNotCombined = true;
                 }
             }
+            // console.log('hasKeyNotCombined', hasKeyNotCombined);
             if (!hasKeyNotCombined) {
+                // person 拿掉
                 delete cloned[key];
             }
         }
     }
+    // console.log('cloned', cloned);
     return cloned;
 }
 function mergeConditionAfterEncode(query, condition, key) {

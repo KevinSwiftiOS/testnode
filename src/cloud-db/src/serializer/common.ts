@@ -1,5 +1,5 @@
 import { LogicCommand } from '../commands/logic';
-import { DataBaseError, ErrorMsg, ERRORS } from '../Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from '../error';
 import {
   isArray,
   isDate,
@@ -27,7 +27,7 @@ function flatten(
   parents: string[],
   visited: AnyObject[]
 ): Record<string, any> {
-  console.log('添加日志测试发包');
+  // console.log('query', query);
   const cloned = { ...query };
   for (const key in query) {
     if (/^\$/.test(key)) {
@@ -44,7 +44,9 @@ function flatten(
       continue;
     }
 
+    // 值是对象的情况下再进入 { 'person': { name: 'ckq' } }
     if (isObject(value) && !shouldPreserverObject(value)) {
+      // 避免循引用
       if (visited.includes(value)) {
         throw new DataBaseError({
           ...ERRORS.INVALID_PARAM,
@@ -63,11 +65,13 @@ function flatten(
         newParents,
         newVisited
       );
+      // console.log('flattenedChild', flattenedChild);
+      // console.log('cloned', cloned);
       cloned[key] = flattenedChild;
       let hasKeyNotCombined = false;
       for (const childKey in flattenedChild) {
         if (!/^\$/.test(childKey)) {
-          // 设置b.a
+          // 设置person.name = ckq;
           cloned[`${key}.${childKey}`] = flattenedChild[childKey];
           delete cloned[key][childKey];
         } else {
@@ -75,12 +79,16 @@ function flatten(
         }
       }
 
+      // console.log('hasKeyNotCombined', hasKeyNotCombined);
+
       if (!hasKeyNotCombined) {
+        // person 拿掉
         delete cloned[key];
       }
     }
   }
 
+  // console.log('cloned', cloned);
   return cloned;
 }
 

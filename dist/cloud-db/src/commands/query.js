@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isComparisonCommand = exports.isQueryCommand = exports.QueryCommand = exports.QUERY_COMMANDS_LITERAL = exports.MOD = exports.SIZE = exports.EXISTS = exports.ELEM_MATCH = exports.ALL = exports.NIN = exports.IN = exports.LTE = exports.LT = exports.GTE = exports.GT = exports.NEQ = exports.EQ = void 0;
+exports.isComparisonCommand = exports.isQueryCommand = exports.QueryCommand = exports.QUERY_COMMANDS_LITERAL = exports.NIN = exports.IN = exports.LTE = exports.LT = exports.GTE = exports.GT = exports.NEQ = exports.EQ = void 0;
 const Symbols_1 = require("../Symbols");
 const logic_1 = require("./logic");
 exports.EQ = 'eq';
@@ -11,11 +11,6 @@ exports.LT = 'lt';
 exports.LTE = 'lte';
 exports.IN = 'in';
 exports.NIN = 'nin';
-exports.ALL = 'all';
-exports.ELEM_MATCH = 'elemMatch';
-exports.EXISTS = 'exists';
-exports.SIZE = 'size';
-exports.MOD = 'mod';
 var QUERY_COMMANDS_LITERAL;
 (function (QUERY_COMMANDS_LITERAL) {
     QUERY_COMMANDS_LITERAL["EQ"] = "eq";
@@ -26,14 +21,6 @@ var QUERY_COMMANDS_LITERAL;
     QUERY_COMMANDS_LITERAL["LTE"] = "lte";
     QUERY_COMMANDS_LITERAL["IN"] = "in";
     QUERY_COMMANDS_LITERAL["NIN"] = "nin";
-    QUERY_COMMANDS_LITERAL["ALL"] = "all";
-    QUERY_COMMANDS_LITERAL["ELEM_MATCH"] = "elemMatch";
-    QUERY_COMMANDS_LITERAL["EXISTS"] = "exists";
-    QUERY_COMMANDS_LITERAL["SIZE"] = "size";
-    QUERY_COMMANDS_LITERAL["MOD"] = "mod";
-    QUERY_COMMANDS_LITERAL["GEO_NEAR"] = "geoNear";
-    QUERY_COMMANDS_LITERAL["GEO_WITHIN"] = "geoWithin";
-    QUERY_COMMANDS_LITERAL["GEO_INTERSECTS"] = "geoIntersects";
 })(QUERY_COMMANDS_LITERAL = exports.QUERY_COMMANDS_LITERAL || (exports.QUERY_COMMANDS_LITERAL = {}));
 class QueryCommand extends logic_1.LogicCommand {
     constructor(operator, operands, fieldName) {

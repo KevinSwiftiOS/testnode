@@ -37,16 +37,19 @@ export const Command = {
   },
 
   and(...args: IQueryCondition[]) {
+    // 数组传入
     const expressions = isArray(args[0]) ? args[0] : args;
     return new LogicCommand(LOGIC_COMMANDS_LITERAL.AND, expressions);
   },
 
   nor(...args: IQueryCondition[]) {
+    // 数组传入
     const expressions = isArray(args[0]) ? args[0] : args;
     return new LogicCommand(LOGIC_COMMANDS_LITERAL.NOR, expressions);
   },
 
   or(...args: IQueryCondition[]) {
+    // 数组传入
     const expressions = isArray(args[0]) ? args[0] : args;
     return new LogicCommand(LOGIC_COMMANDS_LITERAL.OR, expressions);
   },

@@ -15,7 +15,9 @@ for (const key in LOGIC_COMMANDS_LITERAL) {
   }
 }
 
+// eslint-disable-next-line guard-for-in
 for (const key in UPDATE_COMMANDS_LITERAL) {
+  // console.log('key', key);
   if (Object.prototype.hasOwnProperty.call(QUERY_COMMANDS_LITERAL, key)) {
     OperatorMap[key] = '$' + key;
   }

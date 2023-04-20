@@ -8,7 +8,8 @@ const index_1 = require("./serverDate/index");
  *
  */
 class baseDb {
-    constructor(config) {
+    constructor(Request, config) {
+        baseDb.reqClass = Request;
         this.config = config;
         this.command = command_1.Command;
         this.serverDate = index_1.ServerDateConstructor;

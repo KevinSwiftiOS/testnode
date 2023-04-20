@@ -3,7 +3,6 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 // import axios from 'axios';
 import { dySDK } from './node-server';
-
 // class Request {
 //   async send(params) {
 //     const res = await axios({
@@ -30,10 +29,8 @@ async function initService() {
 initService().then(async () => {
     const app = new Koa();
     const router = new Router();
-    const database = new dySDK();
-    const a = database.getdatabase();
-    
-    
+  
+    const a =  dySDK.database();
     router.get('/api/test', async(ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';

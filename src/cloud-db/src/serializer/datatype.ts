@@ -1,6 +1,6 @@
 // transpile internal data type
 import { LogicCommand } from '../commands/logic';
-import { DataBaseError, ErrorMsg, ERRORS } from '../Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from '../error';
 import { ObjectId } from '../ObjectId/index';
 import { ServerDate } from '../serverDate/index';
 import { SYMBOL_OBJECTID, SYMBOL_SERVER_DATE } from '../Symbols';

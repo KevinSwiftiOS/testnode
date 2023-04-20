@@ -30,14 +30,17 @@ exports.Command = {
         return new query_1.QueryCommand(query_1.QUERY_COMMANDS_LITERAL.NIN, val);
     },
     and(...args) {
+        // 数组传入
         const expressions = (0, typings_1.isArray)(args[0]) ? args[0] : args;
         return new logic_1.LogicCommand(logic_1.LOGIC_COMMANDS_LITERAL.AND, expressions);
     },
     nor(...args) {
+        // 数组传入
         const expressions = (0, typings_1.isArray)(args[0]) ? args[0] : args;
         return new logic_1.LogicCommand(logic_1.LOGIC_COMMANDS_LITERAL.NOR, expressions);
     },
     or(...args) {
+        // 数组传入
         const expressions = (0, typings_1.isArray)(args[0]) ? args[0] : args;
         return new logic_1.LogicCommand(logic_1.LOGIC_COMMANDS_LITERAL.OR, expressions);
     },

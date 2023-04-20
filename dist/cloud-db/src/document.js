@@ -4,7 +4,7 @@ exports.DocumentReference = void 0;
 const bson_1 = require("bson");
 const basedb_1 = require("./basedb");
 const constant_1 = require("./constant");
-const Errors_1 = require("./Errors");
+const error_1 = require("./error");
 const datatype_1 = require("./serializer/datatype");
 const update_1 = require("./serializer/update");
 const util_1 = require("./util");
@@ -33,6 +33,7 @@ class DocumentReference {
      */
     async get() {
         var _a, _b;
+        console.log('111');
         const query = (0, util_2.stringifyByEJSON)({ _id: this.id });
         const param = {
             collection_name: this._coll,
@@ -57,15 +58,15 @@ class DocumentReference {
     async set(opts) {
         var _a, _b;
         if (typeof this.id !== 'string' || this.id === '') {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.set.SET_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.set.SET_PARAM_ERROR }));
         }
         if (!(opts &&
-            Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+            Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
             Object.keys(opts).length > 0)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.set.SET_PARAM_OBJECT_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.set.SET_PARAM_OBJECT_ERROR }));
         }
         if ((0, util_2.hasOwnProperty)(opts, '_id')) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.set.SET_PARAM_HAS_ID_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.set.SET_PARAM_HAS_ID_ERROR }));
         }
         let param = {
             collection_name: this._coll,
@@ -95,15 +96,15 @@ class DocumentReference {
     async update(opts) {
         var _a, _b;
         if (typeof this.id !== 'string' || this.id === '') {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.update.UPDATE_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.update.UPDATE_PARAM_ERROR }));
         }
         if (!(opts &&
-            Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+            Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
             Object.keys(opts).length > 0)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.update.UPDATE_PARAM_OBJECT_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.update.UPDATE_PARAM_OBJECT_ERROR }));
         }
         if ((0, util_2.hasOwnProperty)(opts, '_id')) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.update.UPDATE_PARAM_HAS_ID_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.update.UPDATE_PARAM_HAS_ID_ERROR }));
         }
         const query = (0, util_2.stringifyByEJSON)({ _id: this.id });
         const param = {

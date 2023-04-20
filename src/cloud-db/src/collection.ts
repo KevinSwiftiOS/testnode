@@ -1,6 +1,6 @@
 import { baseDb } from './basedb';
 import { DocumentReference } from './document';
-import { DataBaseError, ErrorMsg, ERRORS } from './Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from './error';
 import { Query, QueryOption, UpdateOption } from './query';
 import { serialize } from './serializer/datatype';
 import { ServerDate } from './serverDate';
@@ -63,7 +63,7 @@ export class CollectionReference extends Query {
     // 本期只支持单个添加，后续要看在服务端sdk 侧是否要区分开来
     transformData = [opts];
 
-    transformData = transformData.map((item: any) =>
+    transformData = transformData.map((item:any) =>
       stringifyByEJSON(serialize(item))
     );
     const params: any = {

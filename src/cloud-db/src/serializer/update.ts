@@ -28,7 +28,7 @@ export class UpdateSerializer {
   encodeUpdateObject(query: Record<string, any>): IQueryCondition {
     // 设置key
     const flattened = flattenQueryObject(query);
-    //  没转之前 {a.b: 111}
+    //  没转之前 {a.b: 生成一个command 操作 }
     for (const key in flattened) {
       if (/^\$/.test(key)) {
         continue;
@@ -44,6 +44,7 @@ export class UpdateSerializer {
         [val],
         key
       );
+      // console.log('encodeUpdateObject', $setCommand);
       const condition = this.encodeUpdateCommand($setCommand);
       mergeConditionAfterEncode(flattened, condition, key);
     }

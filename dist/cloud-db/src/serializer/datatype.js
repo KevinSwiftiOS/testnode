@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serialize = void 0;
-const Errors_1 = require("../Errors");
+const error_1 = require("../error");
 const Symbols_1 = require("../Symbols");
 const typings_1 = require("../typings");
 function serialize(val) {
@@ -28,7 +28,7 @@ function serializeHelper(val, visited) {
     else if ((0, typings_1.isArray)(val)) {
         return val.map((item) => {
             if (visited.includes(item)) {
-                throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.common.PRESERVER_ERROR }));
+                throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.common.PRESERVER_ERROR }));
             }
             return serializeHelper(item, [...visited, item]);
         });
@@ -38,7 +38,7 @@ function serializeHelper(val, visited) {
         const finalRet = {};
         for (const key of Object.keys(rawRet)) {
             if (visited.includes(rawRet[key])) {
-                throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.common.PRESERVER_ERROR }));
+                throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.common.PRESERVER_ERROR }));
             }
             if (rawRet[key] !== undefined) {
                 // 过滤掉undefined

@@ -3,9 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
 const basedb_1 = require("./basedb");
 const collection_1 = require("./collection");
-const Errors_1 = require("./Errors");
+const error_1 = require("./error");
 class db extends basedb_1.baseDb {
-    // static newDbReqClass: any;
     /**
      * 获取集合的引用
      *
@@ -13,7 +12,7 @@ class db extends basedb_1.baseDb {
      */
     collection(collName) {
         if (!collName) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.COLLECTION_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.COLLECTION_PARAM_ERROR }));
         }
         return new collection_1.CollectionReference(this, collName);
     }

@@ -9,7 +9,7 @@ import {
   QUERY_COMMANDS_LITERAL,
   QueryCommand,
 } from '../commands/query';
-import { DataBaseError, ErrorMsg, ERRORS } from '../Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from '../error';
 import { operatorToString } from '../operator-map';
 import { SYMBOL_UNSET_FIELD_NAME } from '../Symbols';
 import { isArray, isObject } from '../typings';
@@ -35,9 +35,12 @@ export class QueryEncoder {
     query: IQueryCondition | QueryCommand | LogicCommand,
     _?: any
   ): IQueryCondition {
+    // console.log('isConversionRequired', isConversionRequired(query));
     if (isConversionRequired(query)) {
       if (isLogicCommand(query)) {
-        return this.encodeLogicCommand(query);
+        const encodeRes = this.encodeLogicCommand(query);
+        // console.log('encodeRes', encodeRes);
+        return encodeRes;
       }
 
       if (isQueryCommand(query)) {
@@ -46,6 +49,7 @@ export class QueryEncoder {
     }
 
     if (isObject(query)) {
+      // 作为一个普通的对象传入{person: {name: 'ckq'}}
       return this.encodeQueryObject(query);
     }
 
@@ -53,14 +57,18 @@ export class QueryEncoder {
   }
 
   encodeLogicCommand(query: LogicCommand): IQueryCondition {
+    // dbInstance.command.and([dbInstance.command.eq(3), 10])
     switch (query.operator) {
       case LOGIC_COMMANDS_LITERAL.NOR:
       case LOGIC_COMMANDS_LITERAL.AND:
       case LOGIC_COMMANDS_LITERAL.OR: {
         const $op = operatorToString(query.operator);
+        // console.log('$op', $op);
+        // 遍历的去遍历值
         const subqueries = query.operands.map((oprand: any) =>
           this.encodeQuery(oprand, query.fieldName)
         );
+        //  subqueries [ { a: { '$eq': 3 } }, 10 ]
         return {
           [$op]: subqueries,
         };
@@ -88,6 +96,7 @@ export class QueryEncoder {
   }
 
   encodeComparisonCommand(query: QueryCommand): IQueryCondition {
+    // console.log('encodeComparisonCommand', query);
     if (query.fieldName === SYMBOL_UNSET_FIELD_NAME) {
       // 兜底情况，当key值为设置时不能进行编码
       throw new DataBaseError({
@@ -113,8 +122,7 @@ export class QueryEncoder {
       }
 
       case QUERY_COMMANDS_LITERAL.IN:
-      case QUERY_COMMANDS_LITERAL.NIN:
-      case QUERY_COMMANDS_LITERAL.ALL: {
+      case QUERY_COMMANDS_LITERAL.NIN: {
         return {
           [query.fieldName as string]: {
             [$op]: encodeInternalDataType(query.operands),
@@ -133,7 +141,7 @@ export class QueryEncoder {
   }
 
   encodeQueryObject(query: IQueryCondition): IQueryCondition {
-    // {a: {b: 2}, c: 3} -> { a.b: 2, c: 3 } // 对key 进行编码
+    // {a: {name: 'ckq', sex:{b: 4}}, age: 3} -> { a.name: 'ckq', a.sex.b : 4, age: 3 } // 对key 进行编码
     const flattened = flattenQueryObject(query);
     for (const key of Object.keys(flattened)) {
       // 对值进行编码
@@ -144,15 +152,25 @@ export class QueryEncoder {
         this.mergeConditionAfterEncode(flattened, condition, key);
         // queryCommand
       } else if (isComparisonCommand(val)) {
+        // command.eq(13);
+        /*
+       val QueryCommand {
+       operator: 'eq',
+       operands: [ 3 ],
+       fieldName: InternalSymbol {}
+    }
+        */
         // 设置key 值
         flattened[key] = val._setFieldName(key);
         const condition = this.encodeComparisonCommand(flattened[key]);
+        // condition { 'a.sex.b': { '$eq': 3 } }
         this.mergeConditionAfterEncode(flattened, condition, key);
       } else if (isConversionRequired(val)) {
         flattened[key] = encodeInternalDataType(val);
       }
     }
 
+    // console.log('flattened', flattened);
     // 对于command 会转换为 {a.b: {$eq: 3}} 普通的会转换为 {a.b: 3}}
     return flattened;
   }
@@ -163,22 +181,38 @@ export class QueryEncoder {
     condition: Record<string, any>,
     key: string
   ): void {
+    /* 'a.sex.b':  val QueryCommand {
+  operator: 'eq',
+  operands: [ 3 ],
+  fieldName: I
+  */
+    // condition 'a.sex.b': { '$eq': 3 }
+    // a.sex.b
+    //  console.log('query', query);
+    // console.log('condition', condition);
     if (!condition[key]) {
       delete query[key];
     }
-    // 这里的测试用例再想下
 
+    // eslint-disable-next-line guard-for-in
     for (const conditionKey in condition) {
+      // console.log('123', isObject(query[conditionKey]));
+      //   console.log('1234', isObject(condition[conditionKey]));
       if (query[conditionKey]) {
         if (isArray(query[conditionKey])) {
+          console.log(1);
           query[conditionKey] = [
             ...query[conditionKey],
             ...condition[conditionKey],
           ];
         } else if (isObject(query[conditionKey])) {
+          //    console.log(2);
           if (isObject(condition[conditionKey])) {
+            //     console.log(3);
             Object.assign(query, condition);
+            //    console.log('在这儿');
           } else {
+            console.log(4);
             query[conditionKey] = condition[conditionKey];
           }
         } else {

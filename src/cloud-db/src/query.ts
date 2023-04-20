@@ -2,7 +2,7 @@ import { EJSON } from 'bson';
 
 import { baseDb } from './basedb';
 import { OrderByDirection, OrderDirectionList, QueryType } from './constant';
-import { DataBaseError, ErrorMsg, ERRORS } from './Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from './error';
 import { QuerySerializer } from './serializer/query';
 import { UpdateSerializer } from './serializer/update';
 import { CountRes, GetRes, RemoveRes, UpdateRes } from './typings';
@@ -224,6 +224,7 @@ export class Query {
   }
 
   async get(): Promise<GetRes> {
+    console.log('collection now get');
     const { order } = this._apiOptions as any;
     interface Param {
       collection_name: string;
@@ -297,7 +298,7 @@ export class Query {
     if (
       !(
         opts &&
-        Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+        Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
         Object.keys(opts).length > 0
       )
     ) {

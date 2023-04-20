@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InternalSymbol = void 0;
-const Errors_1 = require("../Errors");
+const error_1 = require("../error");
 const _symbols = [];
 const __internalMark__ = {};
 class HiddenSymbol {
@@ -19,7 +19,7 @@ class HiddenSymbol {
 class InternalSymbol extends HiddenSymbol {
     constructor(target, __mark__) {
         if (__mark__ !== __internalMark__) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.symobl.SYMBOL_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.symobl.SYMBOL_PARAM_ERROR }));
         }
         super(target);
     }

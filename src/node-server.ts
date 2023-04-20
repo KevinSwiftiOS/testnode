@@ -1,4 +1,4 @@
-import { baseDb, DataBaseError, db as DB } from './cloud-db/src';
+import { DataBaseError, db as DB } from './cloud-db/src';
 import axios from 'axios';
 class Request {
   async send(action: unknown, data: unknown) {
@@ -32,16 +32,16 @@ class Request {
 
     return res?.data?.data || '{}';
   }
-}
-export class dySDK {
-  private dbInstance;
-  constructor(config?: any) {
-    const dbInstance = new DB(config);
-    baseDb.reqClass = Request;
-    this.dbInstance = dbInstance;
-  }
+}export const dySDK = (function () {
+  let instance: DB;
+  return {
+    database: function (): DB {
+      if (instance === undefined) {
+        instance = new DB(Request);
+      }
 
-  getdatabase(): DB {
-    return this.dbInstance;
-  }
-}
+      return instance;
+    },
+  };
+})();
+

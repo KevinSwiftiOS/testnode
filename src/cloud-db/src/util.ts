@@ -118,7 +118,7 @@ export function hasOwnProperty(obj: any, key: string): boolean {
   return obj && Object.prototype.hasOwnProperty.call(obj, key);
 }
 
-export function formatRequestServerDateParams(params:any) {
+export function formatRequestServerDateParams(params: any) {
   if (ServerDate.getServerDate()) {
     params.has_server_date = true;
   }

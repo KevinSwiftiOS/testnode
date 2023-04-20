@@ -1,4 +1,4 @@
-import { DataBaseError, ErrorMsg, ERRORS } from '../Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from '../error';
 import { InternalSymbol, SYMBOL_SERVER_DATE } from '../Symbols';
 
 export class ServerDate {

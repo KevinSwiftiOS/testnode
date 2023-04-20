@@ -37,15 +37,15 @@ class Request {
         return ((_b = res === null || res === void 0 ? void 0 : res.data) === null || _b === void 0 ? void 0 : _b.data) || '{}';
     }
 }
-class dySDK {
-    constructor(config) {
-        const dbInstance = new src_1.db(config);
-        src_1.baseDb.reqClass = Request;
-        this.dbInstance = dbInstance;
-    }
-    getdatabase() {
-        return this.dbInstance;
-    }
-}
-exports.dySDK = dySDK;
+exports.dySDK = (function () {
+    let instance;
+    return {
+        database: function () {
+            if (instance === undefined) {
+                instance = new src_1.db(Request);
+            }
+            return instance;
+        },
+    };
+})();
 //# sourceMappingURL=node-server.js.map

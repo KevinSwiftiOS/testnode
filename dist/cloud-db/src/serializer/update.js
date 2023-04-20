@@ -16,7 +16,7 @@ class UpdateSerializer {
     encodeUpdateObject(query) {
         // 设置key
         const flattened = (0, common_1.flattenQueryObject)(query);
-        //  没转之前 {a.b: 111}
+        //  没转之前 {a.b: 生成一个command 操作 }
         for (const key in flattened) {
             if (/^\$/.test(key)) {
                 continue;
@@ -27,6 +27,7 @@ class UpdateSerializer {
             val = (0, common_1.encodeInternalDataType)(val);
             flattened[key] = val;
             const $setCommand = new update_1.UpdateCommand(update_1.UPDATE_COMMANDS_LITERAL.SET, [val], key);
+            // console.log('encodeUpdateObject', $setCommand);
             const condition = this.encodeUpdateCommand($setCommand);
             (0, common_1.mergeConditionAfterEncode)(flattened, condition, key);
         }

@@ -13,9 +13,6 @@ export class baseDb {
 
   ObjectId: any;
   /**
-   * 初始化
-   *
-   * 默认是 `default` 数据库，为今后扩展使用
    *
    * @param config
    */
@@ -26,7 +23,8 @@ export class baseDb {
   /** 逻辑操作的命令 */
   command: typeof Command;
 
-  constructor(config?: any) {
+  constructor(Request: any, config?: any) {
+    baseDb.reqClass = Request;
     this.config = config;
     this.command = Command;
     this.serverDate = ServerDateConstructor;

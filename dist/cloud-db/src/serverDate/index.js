@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerDateConstructor = exports.ServerDate = void 0;
-const Errors_1 = require("../Errors");
+const error_1 = require("../error");
 const Symbols_1 = require("../Symbols");
 class ServerDate {
     static resetHasServerDate() {
@@ -15,7 +15,7 @@ class ServerDate {
     }
     constructor({ offset = 0 } = {}) {
         if (!Number.isInteger(offset)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.serverDate.SERVER_DATE_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.serverDate.SERVER_DATE_PARAM_ERROR }));
         }
         this.offset = offset;
     }

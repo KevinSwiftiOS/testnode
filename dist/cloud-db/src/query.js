@@ -4,7 +4,7 @@ exports.Query = void 0;
 const bson_1 = require("bson");
 const basedb_1 = require("./basedb");
 const constant_1 = require("./constant");
-const Errors_1 = require("./Errors");
+const error_1 = require("./error");
 const query_1 = require("./serializer/query");
 const update_1 = require("./serializer/update");
 const util_1 = require("./util");
@@ -28,12 +28,12 @@ class Query {
     where(query) {
         // query校验 1. 必填对象类型  2. value 不可均为undefiend
         if (Object.prototype.toString.call(query).slice(8, -1) !== 'Object') {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.where.WHERE_PARAM_OBJECT_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.where.WHERE_PARAM_OBJECT_ERROR }));
         }
         const keys = Object.keys(query);
         const checkFlag = keys.some((item) => query[item] !== undefined);
         if (keys.length > 0 && !checkFlag) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.where.WHREE_PARAM_UNDEFINED_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.where.WHREE_PARAM_UNDEFINED_ERROR }));
         }
         return new Query(this._db, this._coll, query_1.QuerySerializer.encodeEJSON(query), Object.assign({}, this._apiOptions));
     }
@@ -45,10 +45,10 @@ class Query {
      */
     orderBy(fieldPath, directionStr) {
         if (!/^[\w.-]/.test(fieldPath)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection['order-by'].ORDER_BY_FIELD_PATH_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection['order-by'].ORDER_BY_FIELD_PATH_ERROR }));
         }
         if (!constant_1.OrderDirectionList.includes(directionStr)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection['order-by'].ORDER_BY_DIRECTION_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection['order-by'].ORDER_BY_DIRECTION_ERROR }));
         }
         const newOrder = {
             [fieldPath]: directionStr === 'desc' ? -1 : 1,
@@ -67,7 +67,7 @@ class Query {
      */
     limit(limit) {
         if (!Number.isInteger(limit)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.limit.LIMIT_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.limit.LIMIT_PARAM_ERROR }));
         }
         const newApiOption = Object.assign({}, this._apiOptions);
         newApiOption.limit = limit;
@@ -80,7 +80,7 @@ class Query {
      */
     skip(offset) {
         if (!Number.isInteger(offset)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.skip.SKIP_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.skip.SKIP_PARAM_ERROR }));
         }
         const newApiOption = Object.assign({}, this._apiOptions);
         newApiOption.offset = offset;
@@ -117,6 +117,7 @@ class Query {
     }
     async get() {
         var _a, _b;
+        console.log('collection now get');
         const { order } = this._apiOptions;
         const param = {
             collection_name: this._coll,
@@ -159,12 +160,12 @@ class Query {
     async update(opts) {
         var _a, _b;
         if (!(opts &&
-            Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+            Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
             Object.keys(opts).length > 0)) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.update.UPDATE_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.update.UPDATE_PARAM_ERROR }));
         }
         if ((0, util_2.hasOwnProperty)(opts, '_id')) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.update.UPDATE_ID_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.update.UPDATE_ID_ERROR }));
         }
         const param = {
             collection_name: this._coll,
@@ -194,7 +195,7 @@ class Query {
             limit !== undefined ||
             projection !== undefined ||
             order !== undefined) {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.remove.REMOVE_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.remove.REMOVE_PARAM_ERROR }));
         }
         // multi 再确认下
         // const multi = true // where remove 不传multi默认为true

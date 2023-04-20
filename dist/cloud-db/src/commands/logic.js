@@ -20,6 +20,7 @@ class LogicCommand {
                 configurable: false,
             },
         });
+        // a: db.command.and([10,10]);
         this.operator = operator;
         this.operands = operands;
         this.fieldName = fieldName || Symbols_1.SYMBOL_UNSET_FIELD_NAME;

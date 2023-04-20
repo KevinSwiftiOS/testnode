@@ -2,7 +2,7 @@ import { EJSON } from 'bson';
 
 import { baseDb } from './basedb';
 import { QueryType } from './constant';
-import { DataBaseError, ErrorMsg, ERRORS } from './Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from './error';
 import { serialize } from './serializer/datatype';
 import { UpdateSerializer } from './serializer/update';
 import { GetRes, RemoveRes, UpdateRes } from './typings';
@@ -62,6 +62,7 @@ export class DocumentReference {
    * 返回选中的文档（_id）
    */
   async get(): Promise<GetRes> {
+    console.log('111');
     const query = stringifyByEJSON({ _id: this.id });
     const param: any = {
       collection_name: this._coll,
@@ -97,7 +98,7 @@ export class DocumentReference {
     if (
       !(
         opts &&
-        Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+        Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
         Object.keys(opts).length > 0
       )
     ) {
@@ -156,7 +157,7 @@ export class DocumentReference {
     if (
       !(
         opts &&
-        Object.prototype.toString.call(opts).slice(8, -1) !== 'Object' &&
+        Object.prototype.toString.call(opts).slice(8, -1) === 'Object' &&
         Object.keys(opts).length > 0
       )
     ) {

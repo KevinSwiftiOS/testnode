@@ -7,7 +7,7 @@ const router_1 = __importDefault(require("@koa/router"));
 const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 // import axios from 'axios';
-const node_server_1 = require("./node-server");
+const node_server_sdk_1 = require("@open-dy/node-server-sdk");
 // class Request {
 //   async send(params) {
 //     const res = await axios({
@@ -32,18 +32,23 @@ async function initService() {
 initService().then(async () => {
     const app = new koa_1.default();
     const router = new router_1.default();
-    const database = new node_server_1.dySDK();
-    const a = database.getdatabase();
+    const a = node_server_sdk_1.dySDK.database();
     router.get('/api/test', async (ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
         return 'test';
     });
     router.get('/api/get', async (ctx) => {
-        const res = await a.collection("todos").get();
-        ctx.body = res;
-        console.log("get拿到的结果", res);
-        return res;
+        try {
+            const res = await a.collection("todos").get();
+            console.log("get拿到的结果", res);
+            ctx.body = res;
+            return res;
+        }
+        catch (err) {
+            ctx.body = err.errMsg;
+            return '123';
+        }
     });
     router.get('/api/update', async (ctx) => {
         // const res = await request.send({"has_server_date":false,"collection_name":"collection2","query_type":"WHERE","multi":true,"merge":true,"upsert":false,"update_data":"{\"$set\":{\"chenghe\":\"ckq\"}}","query":"{\"age\":{\"$numberInt\":\"17\"}}","action":"database.updateDocument"});

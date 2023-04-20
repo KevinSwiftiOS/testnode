@@ -32,11 +32,10 @@ export class LogicCommand {
         configurable: false,
       },
     });
-
+    // a: db.command.and([10,10]);
     this.operator = operator;
     this.operands = operands;
     this.fieldName = fieldName || SYMBOL_UNSET_FIELD_NAME;
-
     if (this.fieldName !== SYMBOL_UNSET_FIELD_NAME) {
       if (Array.isArray(operands)) {
         operands = [...operands];

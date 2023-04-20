@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollectionReference = void 0;
 const document_1 = require("./document");
-const Errors_1 = require("./Errors");
+const error_1 = require("./error");
 const query_1 = require("./query");
 const datatype_1 = require("./serializer/datatype");
 const serverDate_1 = require("./serverDate");
@@ -31,7 +31,7 @@ class CollectionReference extends query_1.Query {
      */
     doc(docID) {
         if (typeof docID !== 'string' || docID === '') {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.doc.get.GET_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.doc.get.GET_PARAM_ERROR }));
         }
         return new document_1.DocumentReference(this._db, this._coll, docID);
     }
@@ -46,7 +46,7 @@ class CollectionReference extends query_1.Query {
         // 判断data是否为数组, 兼容处理
         let transformData = opts;
         if (Object.prototype.toString.call(opts).slice(8, -1) !== 'Object') {
-            throw new Errors_1.DataBaseError(Object.assign(Object.assign({}, Errors_1.ERRORS.INVALID_PARAM), { errMsg: Errors_1.ErrorMsg.collection.add.ADD_PARAM_ERROR }));
+            throw new error_1.DataBaseError(Object.assign(Object.assign({}, error_1.ERRORS.INVALID_PARAM), { errMsg: error_1.ErrorMsg.collection.add.ADD_PARAM_ERROR }));
         }
         // 本期只支持单个添加，后续要看在服务端sdk 侧是否要区分开来
         transformData = [opts];

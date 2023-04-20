@@ -1,4 +1,4 @@
-import { DataBaseError, ErrorMsg, ERRORS } from '../Errors';
+import { DataBaseError, ErrorMsg, ERRORS } from '../error';
 
 const _symbols: { target: any; instance: InternalSymbol }[] = [];
 const __internalMark__ = {};
