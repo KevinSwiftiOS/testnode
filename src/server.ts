@@ -40,11 +40,18 @@ initService().then(async () => {
         return 'test';
      });
     router.get('/api/get', async(ctx) => {
-    
+    try{
        const res = await a.collection("todos").get();
-       ctx.body = res;
        console.log("get拿到的结果", res);
+       ctx.body = res;
+  
        return res;
+    }catch(err) {
+     
+        ctx.body = err.errMsg;
+   
+        return '123';
+    }
     });
     router.get('/api/update', async(ctx) => {
 
