@@ -50,27 +50,17 @@ initService().then(async () => {
         ctx.body = 'test';
         return 'test';
      });
-    router.get('/api/get', async(ctx) => {
-       const res = await dbInstance.collection("collection2").get();
-       console.log("get拿到的结果", res);
-       ctx.body = res;
-       return res;
+    router.get('/api/get', (ctx) => {
+       console.log("get拿到的结果", ctx.request.body);
+       ctx.body = ctx.request.body;
+       return '11 get';
     });
-    router.get('/api/update', async(ctx) => {
-      try {
-        const res = await dbInstance.collection("collection2").add({data: {name: 1}});
-        ctx.body = res;
-        console.log("update拿到的结果", res);
-        return res;
-      }catch(err) {
-        console.log("update err拿到的结果", err);
-        ctx.body = {
-          statusMessage: err.errMsg,
-          statusCode: err.errorCode
-        }
-        return 'fail'
-      }
-        
+
+   router.post('/api/post',(ctx) => {
+    console.log('1234567',ctx.request.body);
+       // const res = await dbInstance.collection("collection2").add({data: {name: ctx.params}});
+        ctx.body = ctx.request.body;
+        return  ctx.request.body; 
      });
     app.use(bodyParser());
     app.use(router.routes());

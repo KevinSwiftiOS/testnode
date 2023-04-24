@@ -28,7 +28,7 @@ class Request {
         console.log("res status === 200", res.status === 200);
         console.log("res.statusText", res.statusText);
         console.log("res data", JSON.stringify(res.data));
-        console.log("res.data.statusMessage", res.data.statusMessage);
+        console.log("res.data.statusMessage", res.data.status_message);
         console.log("res.data.statusCode", res.data.statusCode);
         if (res.data.status_code) {
             throw new src_1.DataBaseError({
@@ -51,17 +51,16 @@ initService().then(async () => {
         ctx.body = 'test';
         return 'test';
     });
-    router.get('/api/get', async (ctx) => {
-        const res = await dbInstance.collection("collection2").get();
-        console.log("get拿到的结果", res);
-        ctx.body = res;
-        return res;
+    router.get('/api/get', (ctx) => {
+        console.log("get拿到的结果", ctx.request.body);
+        ctx.body = '11';
+        return '11 get';
     });
-    router.get('/api/update', async (ctx) => {
-        const res = await dbInstance.collection("collection2").add({ data: { name: 1 } });
-        ctx.body = res;
-        console.log("update拿到的结果", res);
-        return res;
+    router.post('/api/post', (ctx) => {
+        console.log('1234567', ctx.request.body);
+        // const res = await dbInstance.collection("collection2").add({data: {name: ctx.params}});
+        ctx.body = 32;
+        return ctx.request.body;
     });
     app.use((0, koa_bodyparser_1.default)());
     app.use(router.routes());
