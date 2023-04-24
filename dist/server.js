@@ -44,8 +44,7 @@ async function initService() {
 initService().then(async () => {
     const app = new koa_1.default();
     const router = new router_1.default();
-    const dbInstance = new src_1.db();
-    src_1.baseDb.reqClass = Request;
+    const a = node_server_sdk_1.dySDK.database();
     router.get('/api/test', async (ctx) => {
         console.log("test拿到的结果", 'test');
         ctx.body = 'test';
