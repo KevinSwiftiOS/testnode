@@ -23,11 +23,17 @@ initService().then(async () => {
     });
 
    router.post('/api/post',async(ctx) => {
-    console.log('1234567',ctx.request.body);
-        const res = await dbInstance.collection("collection2").add({data: {name: ctx.params}});
+    console.log('/api/post',ctx.request.body);
+        const res = await dySDK.database().collection("collection2").add({data: {name: 'caokaiqiang',age: 28, school: 'hangzhou'}});
         ctx.body = res;
         return  ctx.request.body; 
      });
+     router.post('/api/add',async(ctx) => {
+        console.log('/api/add',ctx.request.body);
+            const res = await dySDK.database().collection("collection2").add(ctx.request.body);
+            ctx.body = res;
+            return ctx.request.body; 
+         });
     app.use(bodyParser());
     app.use(router.routes());
 
