@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "",
-    "serve": "node src/index.js",
+    "serve": "node dist/index.js",
     "start": "npm run serve"
   },
   "keywords": [
