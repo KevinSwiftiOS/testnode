@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dySDK = void 0;
-var ckq_test_db_1 = require("../../../ckq-test-db/dist/obfuscated/commonjs/index.js");
+var ckq_test_db_1 = require("../../../ckq-test-db/dist/bundle.js");
 var axios_1 = require("axios");
 var Request = (function () {
     function Request() {

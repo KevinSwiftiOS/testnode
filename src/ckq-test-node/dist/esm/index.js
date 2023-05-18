@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dySDK = void 0;
-var ckq_test_db_1 = require("../../../ckq-test-db/dist/obfuscated/esm/index.js");
+var ckq_test_db_1 = require("../../../ckq-test-db/dist/main.js");
 var axios_1 = __importDefault(require("axios"));
 var Request = (function () {
     function Request() {
