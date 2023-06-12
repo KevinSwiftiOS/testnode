@@ -41,10 +41,10 @@ initService().then(async ({ redis, mongoose}) => {
     router.get('/', ctx => {
         ctx.body = `Nodejs koa demo project`;
     }).get("/api/test", (ctx) => {
-        console.log('test is node');
+        console.log('test is node1');
         console.log(900);
-        ctx.body = 'test is node';
-        console.log({"content": "success", "age": 35, "sex": "male"});
+        ctx.body = 'test is node1';
+        console.log(JSON.parse(JSON.stringify({"content": "success", "age": 36, "sex": "male"})));
         return '123';
     })
     
