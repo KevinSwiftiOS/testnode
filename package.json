@@ -2,11 +2,11 @@
   "name": "douyincloud-nodejs-koa-demo",
   "version": "1.0.0",
   "description": "Nodejs koa demo project which can be deployed on douyincloud",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "",
-    "serve": "node src/index.js",
+    "serve": "node dist/index.js",
     "start": "npm run serve"
   },
   "keywords": [
