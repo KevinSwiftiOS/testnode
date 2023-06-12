@@ -10,7 +10,8 @@ initService().then(async () => {
     const router = new Router();
   
     router.get('/api2/test', async(ctx) => {
-        console.log("test拿到的结果1", 'test');
+        console.log("test拿到的结果", '1');
+        console.log(900);
         ctx.body = 'test';
         return 'test';
      });
