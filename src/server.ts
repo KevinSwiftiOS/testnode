@@ -44,6 +44,7 @@ initService().then(async ({ redis, mongoose}) => {
         console.log('test is node');
         console.log(900);
         ctx.body = 'test is node';
+        console.log({"content": "success", "age": 35, "sex": "male"});
         return '123';
     })
     
