@@ -41,8 +41,8 @@ router.get('/', ctx => {
       });
     console.log('res', res);
     ctx.body = {
-        res: 123,
-        success: true,
+        "result": res,
+        "success": true,
     }
 });
 
