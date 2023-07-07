@@ -39,8 +39,9 @@ router.get('/', ctx => {
           }
         ]
       });
+    console.log('res', res);
     ctx.body = {
-        res: res,
+        res: 123,
         success: true,
     }
 });
