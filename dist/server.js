@@ -31,10 +31,14 @@ router.get('/', ctx => {
 }).post('/api/content_security', async (ctx) => {
     const body = ctx.request.body;
     const tasks = body.tasks;
-    console.log('tasks', tasks);
-    const res = await axios_1.default.post('https://developer.toutiao.com/api/v2/tags/text/antidirt', {
-        tasks: tasks
-    });
+    // const params = { "tasks": tasks };
+    // console.log('tasks', tasks);
+    const customConfig = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const res = await axios_1.default.post('http://developer.toutiao.com/api/v2/tags/text/antidirt', { "tasks": tasks }, customConfig);
     ctx.body = {
         res: res,
         success: true,

@@ -32,7 +32,7 @@ router.get('/', ctx => {
         'Content-Type': 'application/json'
         }
     };
-    const res = await axios.post('http://developer.toutiao.com/api/v2/tags/text/antidirt',  { "tasks": tasks }, customConfig);
+    const res = await axios.post('http://developer.toutiao.com/api/v2/tags/text/antidirt',  { "tasks": tasks });
     ctx.body = {
         res: res,
         success: true,
