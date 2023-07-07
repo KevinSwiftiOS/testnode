@@ -25,7 +25,7 @@ router.get('/', ctx => {
 }).post('/api/content_security', async (ctx) => {
     const body: any = ctx.request.body;
     const tasks = body.tasks;
-    const params =  JSON.stringify({ "tasks": tasks });
+    const params = { "tasks": tasks };
     console.log('tasks', tasks);
     const customConfig = {
         headers: {
