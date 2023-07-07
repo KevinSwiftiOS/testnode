@@ -6,10 +6,8 @@ const app = new Koa();
 const router = new Router();
 router.get('/', ctx => {
     ctx.body = `Nodejs koa demo project`;
-}).get('/api/get_dyc_open_id', async (ctx) => {
+}).get('/api/get_open_id', async (ctx) => {
     const value = ctx.request.header['x-tt-openid'] as string;
-    console.log('headers', ctx.request.header);
-    console.log('value1', value);
     if (value) {
         ctx.body = {
             success: true,
@@ -22,24 +20,16 @@ router.get('/', ctx => {
             message: `dyc-open-id not exist`,
         }
     }
-}).post('/api/content_security', async (ctx) => {
+}).post('/api/text/antidirt', async (ctx) => {
     const body: any = ctx.request.body;
-    const tasks = body.tasks;
-    // const params = { "tasks": tasks };
-    // console.log('tasks', tasks);
-    const customConfig = {
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    };
+    const content = body.content;
     const res = await axios.post('http://developer.toutiao.com/api/v2/tags/text/antidirt', {
         "tasks": [
           {
-            "content": "要检测的文本"
+            "content": content
           }
         ]
       });
-    console.log('res', res.data);
     ctx.body = {
         "result": res.data,
         "success": true,
