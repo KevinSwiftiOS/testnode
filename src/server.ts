@@ -39,9 +39,9 @@ router.get('/', ctx => {
           }
         ]
       });
-    console.log('res', res);
+    console.log('res', res.data);
     ctx.body = {
-        "result": res,
+        "result": res.data,
         "success": true,
     }
 });
