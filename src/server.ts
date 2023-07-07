@@ -7,8 +7,9 @@ const router = new Router();
 router.get('/', ctx => {
     ctx.body = `Nodejs koa demo project`;
 }).get('/api/get_dyc_open_id', async (ctx) => {
-    const value = ctx.request.headers['X-DYC-OPENID'] as string;
-    console.log('value', value);
+    const value = ctx.request.header['X-DYC-OPENID'] as string;
+    console.log('headers', ctx.request.header);
+    console.log('value1', value);
     if (value) {
         ctx.body = {
             success: true,
