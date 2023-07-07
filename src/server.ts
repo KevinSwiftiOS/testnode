@@ -32,7 +32,13 @@ router.get('/', ctx => {
         'Content-Type': 'application/json'
         }
     };
-    const res = await axios.post('http://developer.toutiao.com/api/v2/tags/text/antidirt',  { "tasks": tasks });
+    const res = await axios.post('http://developer.toutiao.com/api/v2/tags/text/antidirt', {
+        "tasks": [
+          {
+            "content": "要检测的文本"
+          }
+        ]
+      });
     ctx.body = {
         res: res,
         success: true,
