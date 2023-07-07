@@ -27,7 +27,7 @@ router.get('/', ctx => {
     const tasks = body.tasks;
     console.log('tasks', tasks);
     const res = await axios.post('https://developer.toutiao.com/api/v2/tags/text/antidirt', {
-        tasks: tasks
+        tasks: JSON.stringify(tasks)
     });
     ctx.body = {
         res: res,

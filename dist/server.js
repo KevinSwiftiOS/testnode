@@ -6,12 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 const router_1 = __importDefault(require("@koa/router"));
+const axios_1 = __importDefault(require("axios"));
 const app = new koa_1.default();
 const router = new router_1.default();
 router.get('/', ctx => {
     ctx.body = `Nodejs koa demo project`;
 }).get('/api/get_dyc_open_id', async (ctx) => {
-    const value = ctx.request.header['X-DYC-OPENID'];
+    const value = ctx.request.header['x-tt-openid'];
+    console.log('headers', ctx.request.header);
+    console.log('value1', value);
     if (value) {
         ctx.body = {
             success: true,
@@ -29,11 +32,11 @@ router.get('/', ctx => {
     const body = ctx.request.body;
     const tasks = body.tasks;
     console.log('tasks', tasks);
-    // const res = axios.post('https://developer.toutiao.com/api/v2/tags/text/antidirt', {
-    //     tasks: tasks
-    // });
+    const res = await axios_1.default.post('https://developer.toutiao.com/api/v2/tags/text/antidirt', {
+        tasks: tasks
+    });
     ctx.body = {
-        res: '123',
+        res: res,
         success: true,
     };
 });
