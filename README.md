@@ -31,4 +31,55 @@
 }
 ```
 
+### `GET /api/get_data_from_redis?key=test`
+调用 redis 组件获取 value
+### 请求参数
+- `key`:`string` redis key
+
+### 响应结果
+```json
+{
+    "success": true,
+    "data": "",
+}
+```
+
+### `POST /api/set_data_to_mongodb?name=test`
+调用 mongodb 组件写入数据
+### 请求参数
+- `name`:`string` 写入mongodb的数据
+
+
+### 响应结果
+```json
+{
+    "success": true,
+}
+```
+
+### `GET /api/get_data_from_mongodb?name=test`
+调用 mongodb 组件获取数据
+### 请求参数
+- `name`:`string` 
+
+### 响应结果
+```json
+{
+    "success": true,
+    "data": {},
+}
+```
+
+### 组件使用注意事项
+在抖音云托管平台上启用组件后，抖音云平台会自动将组件的地址，账号，密码以环境变量的方式注入到容器中。\
+以Redis为例，在抖音云托管平台启用Redis组件后，平台会生成 `REDIS_ADDRESS`，`REDIS_USERNAME`，`REDIS_PASSWORD`三个环境变量，在业务代码中可以使用如下代码获取相应值。
+```js
+	const redisAddr = process.env.REDIS_ADDRESS;
+	const redisUserName = process.env.REDIS_USERNAME;
+	const redisPassword = process.env.REDIS_PASSWORD; 
+```
+
+## License
+
+This project is licensed under the [Apache-2.0 License](LICENSE).
 
