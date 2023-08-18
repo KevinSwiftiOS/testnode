@@ -18,7 +18,7 @@ initService().then(() => {
      }
      return 'success';
     })
-    router.post('/api/post', async(req,res) => {
+    router.post('/api/post',(req,res) => {
     let { username } = req.body;
      return username;
     })
