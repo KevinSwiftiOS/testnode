@@ -11,14 +11,16 @@ initService().then(() => {
     const app = new Koa();
     const router = new Router();
     const database = dySDK.database();  
-    router.get('/', ctx => {
-        ctx.body = `Nodejs koa demo project`;
-    }).get('/api/get', async(ctx) => {
+    router.get('/api/get', async(ctx) => {
         const todos = await database.collection("todos").get();
      ctx.body = {
         data: todos
      }
      return 'success';
+    })
+    router.post('/api/post', async(req,res) => {
+    let { username } = req.body;
+     return username;
     })
     app.use(bodyParser());
     app.use(router.routes());
