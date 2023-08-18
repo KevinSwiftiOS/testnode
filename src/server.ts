@@ -1,26 +1,16 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import Router from '@koa/router'
-import { dySDK }  from '@open-dy/node-server-sdk';
-// 初始化各服务的连接 redis, mongo
-async function initService() {
- 
-}
 
-initService().then(() => {
+// 初始化各服务的连接 redis, mongo
+
+
     const app = new Koa();
     const router = new Router();
-    const database = dySDK.database();  
-    router.get('/api/get', async(ctx) => {
-        const todos = await database.collection("todos").get();
-     ctx.body = {
-        data: todos
-     }
-     return 'success';
-    })
-    router.post('/api/post',(req,res) => {
-    let { username } = req.body;
-     return username;
+    router.post('/api/post',(ctx,next) => {
+        let username = ctx.request.body;
+        
+        ctx.body = username;
     })
     app.use(bodyParser());
     app.use(router.routes());
@@ -29,5 +19,3 @@ initService().then(() => {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
-
-}).catch((error: string) => console.log("Init service  error: ", error));

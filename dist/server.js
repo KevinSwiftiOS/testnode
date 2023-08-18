@@ -6,43 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 const router_1 = __importDefault(require("@koa/router"));
-const axios_1 = __importDefault(require("axios"));
+// 初始化各服务的连接 redis, mongo
 const app = new koa_1.default();
 const router = new router_1.default();
-router.get('/', ctx => {
-    ctx.body = `Nodejs koa demo project`;
-}).get('/api/get_dyc_open_id', async (ctx) => {
-    const value = ctx.request.header['x-tt-openid'];
-    console.log('headers', ctx.request.header);
-    console.log('value1', value);
-    if (value) {
-        ctx.body = {
-            success: true,
-            data: value,
-        };
-    }
-    else {
-        ctx.status = 404;
-        ctx.body = {
-            success: false,
-            message: `dyc-open-id not exist`,
-        };
-    }
-}).post('/api/content_security', async (ctx) => {
-    const body = ctx.request.body;
-    const tasks = body.tasks;
-    // const params = { "tasks": tasks };
-    // console.log('tasks', tasks);
-    const customConfig = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-    const res = await axios_1.default.post('http://developer.toutiao.com/api/v2/tags/text/antidirt', { "tasks": tasks }, customConfig);
-    ctx.body = {
-        res: res,
-        success: true,
-    };
+router.post('/api/post', (ctx, next) => {
+    let username = ctx.request.body;
+    ctx.body = username;
 });
 app.use((0, koa_bodyparser_1.default)());
 app.use(router.routes());
