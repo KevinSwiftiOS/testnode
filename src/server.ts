@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
+import { koaBody } from 'koa-body';
 import Router from '@koa/router'
 
 
@@ -21,11 +21,12 @@ initService().then(async () => {
         ctx.body = `Nodejs koa demo project success`;
     });
     router.post('/api', ctx => {
+        console.log("112221");
+        console.log("post request rawbody", ctx.request.rawBody);
         console.log("post request body", ctx.request.body);
-        
         ctx.body = ctx.request.body;
     });
-    app.use(bodyParser());
+    app.use(koaBody());
     app.use(router.routes());
 
     const PORT = 8000;
