@@ -7,21 +7,24 @@ const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 const router_1 = __importDefault(require("@koa/router"));
 // 初始化各服务的连接 redis, mongo
-const app = new koa_1.default();
-const router = new router_1.default();
-router.get('/api/post', async (ctx) => {
-    console.log("ctx.get", ctx.request);
-    return '1';
-}).post('/api/post', (ctx) => {
-    // 处理 POST 请求的逻辑
-    console.log("ctx.post", ctx.request);
-    return;
-    //  console.log("ctx.post body", ctx.request.body);
-});
-app.use((0, koa_bodyparser_1.default)());
-app.use(router.routes());
-const PORT = 8000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+async function initService() {
+}
+initService().then(async () => {
+    const app = new koa_1.default();
+    const router = new router_1.default();
+    router.get('/api', ctx => {
+        console.log("get request", ctx.request);
+        ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api', ctx => {
+        console.log("post request", ctx.request);
+        ctx.body = `Nodejs koa demo project`;
+    });
+    app.use((0, koa_bodyparser_1.default)());
+    app.use(router.routes());
+    const PORT = 8000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}).catch((error) => console.log("Init service  error: ", error));
 //# sourceMappingURL=server.js.map

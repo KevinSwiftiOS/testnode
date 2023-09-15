@@ -2,20 +2,27 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import Router from '@koa/router'
 
-// 初始化各服务的连接 redis, mongo
 
+// 初始化各服务的连接 redis, mongo
+async function initService() {
+
+}
+
+initService().then(async () => {
+   
+    
 
     const app = new Koa();
+
     const router = new Router();
-    router.get('/api/post', async(ctx) => {
-        console.log("ctx.get", ctx.request);
-        return '1';
-     }).post('/api/post', (ctx) => {
-        // 处理 POST 请求的逻辑
-        console.log("ctx.post", ctx.request);
-        return;
-      //  console.log("ctx.post body", ctx.request.body);
-      })
+    router.get('/api', ctx => {
+        console.log("get request", ctx.request);
+        ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api', ctx => {
+        console.log("post request", ctx.request);
+        ctx.body = `Nodejs koa demo project`;
+    });
     app.use(bodyParser());
     app.use(router.routes());
 
@@ -23,3 +30,5 @@ import Router from '@koa/router'
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
+
+}).catch((error: string) => console.log("Init service  error: ", error));
