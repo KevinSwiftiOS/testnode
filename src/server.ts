@@ -19,7 +19,7 @@ initService().then(async () => {
         console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
     });
-    router.get('/api', ctx => {
+    router.post('/api', ctx => {
         console.log("post request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
     });
