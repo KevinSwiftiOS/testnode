@@ -1,24 +1,33 @@
+# 编译 typescript
+FROM public-cn-beijing.cr.volces.com/public/base:node-16-alpine as builder
 
-#根据nodejs的版本选择抖音云语言基础镜像
-FROM public-cn-beijing.cr.volces.com/public/dycloud-node:18-alpine
-#指定项目根目录
 WORKDIR /opt/application/
 
-# copy 
-COPY . .
+COPY .  .
 
 USER root
 
-# 安装相关依赖
-RUN npm install --registry=https://registry.npmmirror.com 
+RUN npm install --registry=https://registry.npmmirror.com
 
-# 如果是TS, 需要额外编译一次
-RUN if [ $(ls /opt/application | grep -w tsconfig.json | wc -l ) = 1 ]; then npm run build; fi
+RUN npm run build
 
-# 写入run.sh
-RUN echo -e '#!/usr/bin/env bash\ncd /opt/application/ && npm run serve' > /opt/application/run.sh
+# 生产环境镜像，不安装 devDependencies， 减少部署镜像大小
+FROM node:16-alpine
 
-# 指定run.sh权限
-Run chmod a+x run.sh
+WORKDIR /opt/application/
+
+COPY --from=builder /opt/application/dist ./dist
+
+COPY package.json ./
+
+COPY run.sh ./
+
+USER root
+
+RUN npm install --production --registry=https://registry.npmmirror.com
+
+RUN chmod -R 777 /opt/application/run.sh
 
 EXPOSE 8000
+
+CMD /opt/application/run.sh

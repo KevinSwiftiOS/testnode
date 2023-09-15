@@ -9,9 +9,14 @@ const router_1 = __importDefault(require("@koa/router"));
 // 初始化各服务的连接 redis, mongo
 const app = new koa_1.default();
 const router = new router_1.default();
-router.post('/api/post', (ctx, next) => {
-    let username = ctx.request.body;
-    ctx.body = username;
+router.get('/api/post', async (ctx) => {
+    console.log("ctx.get", ctx.request);
+    return '1';
+}).post('/api/post', (ctx) => {
+    // 处理 POST 请求的逻辑
+    console.log("ctx.post", ctx.request);
+    return;
+    //  console.log("ctx.post body", ctx.request.body);
 });
 app.use((0, koa_bodyparser_1.default)());
 app.use(router.routes());
