@@ -16,12 +16,14 @@ initService().then(async () => {
 
     const router = new Router();
     router.get('/api', ctx => {
-        console.log("get request", ctx.request);
-        ctx.body = `Nodejs koa demo project`;
+        console.log("get success");
+       // console.log("get request", ctx.request);
+        ctx.body = `Nodejs koa demo project success`;
     });
     router.post('/api', ctx => {
-        console.log("post request", ctx.request);
-        ctx.body = `Nodejs koa demo project`;
+        console.log("post request body", ctx.request.body);
+        
+        ctx.body = ctx.request.body;
     });
     app.use(bodyParser());
     app.use(router.routes());
