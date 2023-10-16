@@ -16,6 +16,7 @@ initService().then(async () => {
 
     const router = new Router();
     router.get('/api', ctx => {
+        console.log({"content": "success", "age": 35});
         console.log("get success");
        // console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project success`;
