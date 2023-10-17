@@ -1,16 +1,15 @@
 import Koa from 'koa';
 import { koaBody } from 'koa-body';
 import Router from '@koa/router'
-
-const { Console } = require('console');
+import { Console } from 'console';
 
 export class CustomConsole extends Console {
-    constructor(options) {
+    constructor(options:any) {
         super(options);
         // 自定义的属性或初始化逻辑
     }
 
-    log(...args) {
+    log(...args:any) {
         
         // 自定义的 log 方法逻辑
         // 例如，添加时间戳或其他自定义信息
