@@ -17,7 +17,8 @@ initService().then(async () => {
     const router = new Router();
     router.get('/api', ctx => {
         console.log(JSON.stringify(({ "age": 35,"method": "get"})),123);
-        console.log(JSON.parse(JSON.stringify(({"name": "ckq" }))));
+        console.log((JSON.stringify(({"name": "ckq" }))));
+        console.log((JSON.stringify(({"sex": "male","school":"xuexiao" }))));
         console.log("get success");
        // console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
