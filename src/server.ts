@@ -2,6 +2,32 @@ import Koa from 'koa';
 import { koaBody } from 'koa-body';
 import Router from '@koa/router'
 
+const { Console } = require('console');
+
+export class CustomConsole extends Console {
+    constructor(options) {
+        super(options);
+        // 自定义的属性或初始化逻辑
+    }
+
+    log(...args) {
+        
+        // 自定义的 log 方法逻辑
+        // 例如，添加时间戳或其他自定义信息
+        const timestamp = new Date().toISOString();
+        super.log(typeof args);
+       super.log(args);
+       // this.trace_log.push({ args: args.join(), timestamp: timestamp });
+    }
+    // getTraceLog() {
+    //     return this.trace_log;
+    // }
+
+    // 可以重写其他的 console 方法，如 error, warn, info, etc.
+}
+
+
+// 创建自定义的 console 对象
 
 // 初始化各服务的连接 redis, mongo
 async function initService() {
@@ -16,6 +42,8 @@ initService().then(async () => {
 
     const router = new Router();
     router.get('/api', ctx => {
+        const customConsole = new CustomConsole({ stdout: process.stdout });
+        console = customConsole;
         console.log(JSON.stringify(({ "age": 35,"method": "get"})),123);
         console.log((JSON.stringify(({"name": "ckq" }))));
         console.log((JSON.stringify(({"sex": "male","school":"xuexiao" }))));
