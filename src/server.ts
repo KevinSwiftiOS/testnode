@@ -20,7 +20,7 @@ initService().then(async () => {
         console.log({"name": "ckq" })
         console.log("get success");
        // console.log("get request", ctx.request);
-        ctx.body = `Nodejs koa demo project success`;
+        ctx.body = `Nodejs koa demo project`;
     });
     router.post('/api', ctx => {
         console.log({ "age": 35,"method": "post"});
