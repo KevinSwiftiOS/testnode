@@ -16,7 +16,7 @@ initService().then(async () => {
 
     const router = new Router();
     router.get('/api', ctx => {
-        console.log(JSON.parse(JSON.stringify(({ "age": 35,"method": "get"}))));
+        console.log(JSON.stringify(({ "age": 35,"method": "get"})));
         console.log(JSON.parse(JSON.stringify(({"name": "ckq" }))));
         console.log("get success");
        // console.log("get request", ctx.request);
