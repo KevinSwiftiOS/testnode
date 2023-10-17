@@ -14,8 +14,17 @@ export class CustomConsole extends Console {
         // 自定义的 log 方法逻辑
         // 例如，添加时间戳或其他自定义信息
         const timestamp = new Date().toISOString();
-        super.log(typeof args);
-       super.log(args);
+     
+        if(args.length === 1) {
+            super.log("length == 1");
+            const first = args[0];
+            super.log(typeof first);
+            super.log(first);
+        }else {
+          super.log("length > 1");
+          super.log(typeof args);
+          super.log(args);
+        }
        // this.trace_log.push({ args: args.join(), timestamp: timestamp });
     }
     // getTraceLog() {
