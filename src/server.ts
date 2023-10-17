@@ -20,6 +20,10 @@ export class CustomConsole extends Console {
             const first = args[0];
             super.log(typeof first);
             super.log(first);
+            if(Object.prototype.toString.call(first) === "[object Object]") {
+                super.log("是一个object");
+                super.log(JSON.stringify(first));
+            }
         }else {
           super.log("length > 1");
           super.log(typeof args);
@@ -52,9 +56,9 @@ initService().then(async () => {
     router.get('/api', ctx => {
         const customConsole = new CustomConsole({ stdout: process.stdout });
         console = customConsole;
-        console.log(JSON.stringify(({ "age": 35,"method": "get"})),123);
-        console.log((JSON.stringify(({"name": "ckq" }))));
-        console.log((JSON.stringify(({"sex": "male","school":"xuexiao" }))));
+        console.log(({ "age": 35,"method": "get"}),123);
+        console.log(((({"name": "ckq" }))));
+        console.log(((({"sex": "male","school":"xuexiao" }))));
         console.log("get success");
        // console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
