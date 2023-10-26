@@ -66,16 +66,16 @@ initService().then(async () => {
     router.post('/api', ctx => {
         console.log(JSON.parse(JSON.stringify({ "age": 35,"method": "post"})));
         console.log(JSON.parse(JSON.stringify({"name": "ckq" })))
-        console.log("112221");
+        console.log("112222221");
         console.log("post request rawbody", ctx.request.rawBody);
         console.log("post request body", ctx.request.body);
         ctx.body = ctx.request.body;
     });
 
 app.use(async (ctx, next) => {
-//     ctx.set('Access-Control-Allow-Origin', 'caokaiqiang'); // 设置允许所有来源的请求
-//     ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 设置允许的HTTP请求方法
-//     ctx.set('Access-Control-Allow-Headers', 'Content-Type'); // 设置允许的请求头字段
+    ctx.set('Access-Control-Allow-Origin', '*'); // 设置允许所有来源的请求
+    ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 设置允许的HTTP请求方法
+    ctx.set('Access-Control-Allow-Headers', 'Content-Type'); // 设置允许的请求头字段
 if (ctx.method === 'OPTIONS') {
     ctx.status = 200;
   } else {
