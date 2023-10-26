@@ -73,7 +73,7 @@ initService().then(async () => {
     });
 
 app.use(async (ctx, next) => {
-    ctx.set('Access-Control-Allow-Origin', '*'); // 设置允许所有来源的请求
+    ctx.set('Access-Control-Allow-Origin', 'caokaiqiang'); // 设置允许所有来源的请求
     ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 设置允许的HTTP请求方法
     ctx.set('Access-Control-Allow-Headers', 'Content-Type'); // 设置允许的请求头字段
   
