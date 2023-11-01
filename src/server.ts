@@ -63,6 +63,72 @@ initService().then(async () => {
        // console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
     });
+    router.get('/api500', ctx => {
+        ctx.status = 500;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api401', ctx => {
+        ctx.status = 401;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api403', ctx => {
+        ctx.status = 403;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api404', ctx => {
+        ctx.status = 404;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api301', ctx => {
+        ctx.status = 301;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api302', ctx => {
+        ctx.status = 302;
+    //     const customConsole = new CustomConsole({ stdout: process.stdout });
+    //     console = customConsole;
+    //     console.log(({ "age": 35,"method": "get"}),123);
+    //     console.log(((({"name": "ckq" }))));
+    //     console.log(((({"sex": "male","school":"xuexiao" }))));
+    //     console.log("get success");
+    //    // console.log("get request", ctx.request);
+    //     ctx.body = `Nodejs koa demo project`;
+    });
     router.post('/api', ctx => {
         console.log(JSON.parse(JSON.stringify({ "age": 35,"method": "post"})));
         console.log(JSON.parse(JSON.stringify({"name": "ckq" })))
