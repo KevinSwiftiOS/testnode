@@ -130,6 +130,7 @@ initService().then(async () => {
     //     ctx.body = `Nodejs koa demo project`;
     });
     router.post('/api', ctx => {
+        console.log("ctx.request.headers是啥", ctx.request.headers);
         console.log(JSON.parse(JSON.stringify({ "age": 35,"method": "post"})));
         console.log(JSON.parse(JSON.stringify({"name": "ckq" })))
         console.log("112222221");
