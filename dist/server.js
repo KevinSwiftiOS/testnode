@@ -154,12 +154,12 @@ initService().then(async () => {
                     resolve({ "res": "error", error: error });
                 });
             });
-            console.log("res是啥", res);
-            return res;
+            ctx.body = res;
+            // return res;
         }
         catch (error) {
-            console.log("error是啥", error);
-            return error;
+            ctx.body = error;
+            // return error;
         }
     });
     app.use(async (ctx, next) => {
