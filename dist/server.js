@@ -8,6 +8,7 @@ const koa_1 = __importDefault(require("koa"));
 const koa_body_1 = require("koa-body");
 const router_1 = __importDefault(require("@koa/router"));
 const console_1 = require("console");
+const axios_1 = __importDefault(require("axios"));
 class CustomConsole extends console_1.Console {
     constructor(options) {
         super(options);
@@ -53,19 +54,128 @@ initService().then(async () => {
         // console.log("get request", ctx.request);
         ctx.body = `Nodejs koa demo project`;
     });
+    router.get('/api500', ctx => {
+        ctx.status = 500;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api401', ctx => {
+        ctx.status = 401;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api403', ctx => {
+        ctx.status = 403;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api404', ctx => {
+        ctx.status = 404;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api301', ctx => {
+        ctx.status = 301;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
+    router.get('/api302', ctx => {
+        ctx.status = 302;
+        //     const customConsole = new CustomConsole({ stdout: process.stdout });
+        //     console = customConsole;
+        //     console.log(({ "age": 35,"method": "get"}),123);
+        //     console.log(((({"name": "ckq" }))));
+        //     console.log(((({"sex": "male","school":"xuexiao" }))));
+        //     console.log("get success");
+        //    // console.log("get request", ctx.request);
+        //     ctx.body = `Nodejs koa demo project`;
+    });
     router.post('/api', ctx => {
+        console.log("ctx.request.headers是啥", ctx.request.headers);
         console.log(JSON.parse(JSON.stringify({ "age": 35, "method": "post" })));
         console.log(JSON.parse(JSON.stringify({ "name": "ckq" })));
-        console.log("112221");
+        console.log("112222221");
         console.log("post request rawbody", ctx.request.rawBody);
         console.log("post request body", ctx.request.body);
         ctx.body = ctx.request.body;
     });
+    router.post("/apitesttoken", async (ctx) => {
+        const data = {
+            "appid": "ttaa3adc873504973d01",
+            "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
+            "grant_type": "client_credential"
+        };
+        // 设置请求头
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        try {
+            const res = await new Promise((resolve, reject) => {
+                // 使用Axios发起POST请求
+                axios_1.default.post('https://developer.toutiao.com/api/apps/v2/token', data, {
+                    headers: Object.assign({}, headers)
+                })
+                    .then(response => {
+                    // 请求成功的处理逻辑
+                    resolve(Object.assign({ res: "success" }, response.data));
+                })
+                    .catch(error => {
+                    // 请求失败的处理逻辑
+                    resolve({ "res": "error", error: error });
+                });
+            });
+            console.log("res是啥", res);
+            return res;
+        }
+        catch (error) {
+            console.log("error是啥", error);
+            return error;
+        }
+    });
     app.use(async (ctx, next) => {
-        ctx.set('Access-Control-Allow-Origin', '*'); // 设置允许所有来源的请求
+        let hostname = "https://example.com";
+        const headers = ctx.request.header;
+        // if(headers['origin'] === hostname) {
+        ctx.set('Access-Control-Allow-Origin', hostname); // 设置允许所有来源的请求
         ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 设置允许的HTTP请求方法
         ctx.set('Access-Control-Allow-Headers', 'Content-Type'); // 设置允许的请求头字段
-        await next();
+        // }
+        if (ctx.method === 'OPTIONS') {
+            ctx.status = 200;
+        }
+        else {
+            await next();
+        }
     });
     app.use((0, koa_body_1.koaBody)());
     app.use(router.routes());

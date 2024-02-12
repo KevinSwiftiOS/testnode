@@ -2,7 +2,7 @@ import Koa from 'koa';
 import { koaBody } from 'koa-body';
 import Router from '@koa/router'
 import { Console } from 'console';
-
+import axios from 'axios';
 export class CustomConsole extends Console {
     constructor(options:any) {
         super(options);
@@ -138,6 +138,43 @@ initService().then(async () => {
         console.log("post request body", ctx.request.body);
         ctx.body = ctx.request.body;
     });
+    router.post("/apitesttoken", async (ctx) => {
+        const data = {
+            "appid": "ttaa3adc873504973d01",
+            "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
+            "grant_type": "client_credential"
+          }
+          // 设置请求头
+          const headers = {
+            'Content-Type': 'application/json',
+          };
+          try {
+        
+            const res = await new Promise((resolve, reject) => {
+        
+              // 使用Axios发起POST请求
+              axios.post('https://developer.toutiao.com/api/apps/v2/token', data, {
+                headers: {
+                  ...headers
+                }
+              })
+                .then(response => {
+                 
+                  // 请求成功的处理逻辑
+                  resolve({ res: "success", ...response.data });
+                })
+                .catch(error => {
+                  // 请求失败的处理逻辑
+                  resolve({ "res": "error", error: error });
+                });
+            })
+            console.log("res是啥", res);
+            return res;
+          } catch (error) {
+            console.log("error是啥", error);
+            return error;
+          }
+    })
 
 app.use(async (ctx, next) => {
     let hostname = "https://example.com";
