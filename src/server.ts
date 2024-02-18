@@ -138,9 +138,14 @@ initService().then(async () => {
         console.log("post request body", ctx.request.body);
         ctx.body = ctx.request.body;
     });
+    router.get("/apigettoken", async(ctx) => {
+      let params = ctx.query;
+      ctx.body = params;
+    })
     router.post("/apitesttoken", async (ctx) => {
       console.log("ctx request headers", ctx.request.headers);
-      ctx.body = ctx.request.headers;
+     
+      ctx.body = ctx.request.body;
         // const data = {
         //     "appid": "ttaa3adc873504973d01",
         //     "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",

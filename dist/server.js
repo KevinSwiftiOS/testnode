@@ -8,7 +8,6 @@ const koa_1 = __importDefault(require("koa"));
 const koa_body_1 = require("koa-body");
 const router_1 = __importDefault(require("@koa/router"));
 const console_1 = require("console");
-const axios_1 = __importDefault(require("axios"));
 class CustomConsole extends console_1.Console {
     constructor(options) {
         super(options);
@@ -129,38 +128,45 @@ initService().then(async () => {
         console.log("post request body", ctx.request.body);
         ctx.body = ctx.request.body;
     });
+    router.get("/apigettoken", async (ctx) => {
+        let params = ctx.query;
+        ctx.body = params;
+    });
     router.post("/apitesttoken", async (ctx) => {
-        const data = {
-            "appid": "ttaa3adc873504973d01",
-            "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
-            "grant_type": "client_credential"
-        };
-        // 设置请求头
-        const headers = {
-            'Content-Type': 'application/json',
-        };
-        try {
-            const res = await new Promise((resolve, reject) => {
-                // 使用Axios发起POST请求
-                axios_1.default.post('https://developer.toutiao.com/api/apps/v2/token', data, {
-                    headers: Object.assign({}, headers)
-                })
-                    .then(response => {
-                    // 请求成功的处理逻辑
-                    resolve(Object.assign({ res: "success" }, response.data));
-                })
-                    .catch(error => {
-                    // 请求失败的处理逻辑
-                    resolve({ "res": "error", error: error });
-                });
-            });
-            ctx.body = res;
-            // return res;
-        }
-        catch (error) {
-            ctx.body = error;
-            // return error;
-        }
+        console.log("ctx request headers", ctx.request.headers);
+        ctx.body = ctx.request.body;
+        // const data = {
+        //     "appid": "ttaa3adc873504973d01",
+        //     "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
+        //     "grant_type": "client_credential"
+        //   }
+        //   // 设置请求头
+        //   const headers = {
+        //     'Content-Type': 'application/json',
+        //   };
+        //   try {
+        //     const res = await new Promise((resolve, reject) => {
+        //       // 使用Axios发起POST请求
+        //       axios.post('https://developer.toutiao.com/api/apps/v2/token', data, {
+        //         headers: {
+        //           ...headers
+        //         }
+        //       })
+        //         .then(response => {
+        //           // 请求成功的处理逻辑
+        //           resolve({ res: "success", ...response.data });
+        //         })
+        //         .catch(error => {
+        //           // 请求失败的处理逻辑
+        //           resolve({ "res": "error", error: error });
+        //         });
+        //     })
+        //     ctx.body = res;
+        //    // return res;
+        //   } catch (error) {
+        //     ctx.body = error;
+        //    // return error;
+        //   }
     });
     app.use(async (ctx, next) => {
         let hostname = "https://example.com";
