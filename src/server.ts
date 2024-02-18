@@ -139,41 +139,43 @@ initService().then(async () => {
         ctx.body = ctx.request.body;
     });
     router.post("/apitesttoken", async (ctx) => {
-        const data = {
-            "appid": "ttaa3adc873504973d01",
-            "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
-            "grant_type": "client_credential"
-          }
-          // 设置请求头
-          const headers = {
-            'Content-Type': 'application/json',
-          };
-          try {
+      console.log("ctx request headers", ctx.request.headers);
+      ctx.body = ctx.request.headers;
+        // const data = {
+        //     "appid": "ttaa3adc873504973d01",
+        //     "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
+        //     "grant_type": "client_credential"
+        //   }
+        //   // 设置请求头
+        //   const headers = {
+        //     'Content-Type': 'application/json',
+        //   };
+        //   try {
         
-            const res = await new Promise((resolve, reject) => {
+        //     const res = await new Promise((resolve, reject) => {
         
-              // 使用Axios发起POST请求
-              axios.post('https://developer.toutiao.com/api/apps/v2/token', data, {
-                headers: {
-                  ...headers
-                }
-              })
-                .then(response => {
+        //       // 使用Axios发起POST请求
+        //       axios.post('https://developer.toutiao.com/api/apps/v2/token', data, {
+        //         headers: {
+        //           ...headers
+        //         }
+        //       })
+        //         .then(response => {
                  
-                  // 请求成功的处理逻辑
-                  resolve({ res: "success", ...response.data });
-                })
-                .catch(error => {
-                  // 请求失败的处理逻辑
-                  resolve({ "res": "error", error: error });
-                });
-            })
-            ctx.body = res;
-           // return res;
-          } catch (error) {
-            ctx.body = error;
-           // return error;
-          }
+        //           // 请求成功的处理逻辑
+        //           resolve({ res: "success", ...response.data });
+        //         })
+        //         .catch(error => {
+        //           // 请求失败的处理逻辑
+        //           resolve({ "res": "error", error: error });
+        //         });
+        //     })
+        //     ctx.body = res;
+        //    // return res;
+        //   } catch (error) {
+        //     ctx.body = error;
+        //    // return error;
+        //   }
     })
 
 app.use(async (ctx, next) => {

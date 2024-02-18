@@ -27,6 +27,7 @@
     "koa": "^2.13.1",
     "koa-body": "^6.0.1",
     "koa-bodyparser": "^4.3.0",
-    "mongoose": "^6.6.5"
+    "mongoose": "^6.6.5",
+    "wx-server-sdk": "^2.6.3"
   }
 }
