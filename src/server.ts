@@ -2,6 +2,7 @@ import Koa from 'koa';
 import { koaBody } from 'koa-body';
 import Router from '@koa/router'
 import { Console } from 'console';
+import { dySDK } from './dysdk';
 import axios from 'axios';
 export class CustomConsole extends Console {
     constructor(options:any) {
@@ -144,8 +145,8 @@ initService().then(async () => {
     })
     router.post("/apitesttoken", async (ctx) => {
       console.log("ctx request headers", ctx.request.headers);
-     
-      ctx.body = ctx.request.body;
+      let cloud = dySDK.context(ctx.request);
+      ctx.body = cloud.getReal();
         // const data = {
         //     "appid": "ttaa3adc873504973d01",
         //     "secret": "8205b4ca4ce27d026b97346e0a6d224253cb893e",
@@ -183,42 +184,8 @@ initService().then(async () => {
         //   }
     })
     router.post("/testinvokefunc",async (ctx) => {
-      try {
-          let res = await new Promise((resolve, reject) => {
-            axios.request({
-              method: 'post', // 请求方法
-              url: 'http://1jn2oaqys58uh-1jnee14eregwf.dycloud.service/api/testInvokeByService', // 请求URL
-              data: {
-                // 请求体数据
-                key1: 'value114',
-                key2: 'value2'
-              },
-              headers: {
-                // 自定义请求头
-                'Content-Type': 'application/json',
-                'a': "1"
-              },
-              params: {
-                // URL查询参数
-                param1: 'value156',
-                param2: 'value2'
-              }
-            })
-              .then(response => {
-                // 请求成功的处理逻辑
-                resolve(response.data);
-              })
-              .catch(error => {
-                // 请求失败的处理逻辑
-                reject(error);
-              });
-          });
-          console.log("success", res);
-          ctx.body = res;
-        } catch (err) {
-          console.log("err", err);
-          ctx.body = err;
-        }
+     
+        
   })
 app.use(async (ctx, next) => {
     let hostname = "https://example.com";
