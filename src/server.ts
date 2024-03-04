@@ -144,6 +144,13 @@ initService().then(async () => {
       ctx.body = params;
     })
     router.post("/apitesttoken", async (ctx) => {
+      console.log(JSON.stringify({
+        msgContent: "短剧小程序 YYDS111",
+        msg: "抖音云 YYDS", content: "细节123", attributes: {
+          width: 1000,
+          height: 2000,
+        }
+      }))
       console.log("ctx request headers", ctx.request.headers);
       let cloud = dySDK.context(ctx.request);
       ctx.body = cloud.getReal();
